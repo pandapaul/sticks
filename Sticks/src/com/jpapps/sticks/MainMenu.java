@@ -23,9 +23,14 @@ public class MainMenu extends Activity {
 	
 	public void tap(View view) {
 		switch(view.getId()) {
-		case R.id.MainMenuSinglePlayer:
+		case R.id.button_mainmenu_singleplayer:
 			Intent i = new Intent(this, com.jpapps.sticks.SinglePlayerGame.class);
 			startActivity(i);
+		case R.id.button_mainmenu_multiplayer:
+			/*
+			Intent i = new Intent(this, com.jpapps.sticks.MultiplayerGame.class);
+			startActivity(i);
+			*/
 		}
 	}
 

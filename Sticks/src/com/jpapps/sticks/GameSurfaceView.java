@@ -10,7 +10,7 @@ import android.view.SurfaceView;
 
 class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 	
-	class GameThread extends Thread {
+	class RenderingThread extends Thread {
 		
 		private boolean mRun = false;
 		private SurfaceHolder mSurfaceHolder;
@@ -19,7 +19,7 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 		private int mCanvasWidth;
 		private int mCanvasHeight;
 		
-		public GameThread(SurfaceHolder surfaceHolder, Context context, Handler handler) {
+		public RenderingThread(SurfaceHolder surfaceHolder, Context context, Handler handler) {
 			mSurfaceHolder = surfaceHolder;
 			mContext = context;
 			mHandler = handler;
@@ -44,9 +44,11 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                 Canvas c = null;
                 try {
                     c = mSurfaceHolder.lockCanvas(null);
-                    synchronized (mSurfaceHolder) {
-                        //if (mMode == STATE_RUNNING) updatePhysics();
-                        doDraw(c);
+                    if(c != null) {
+	                    synchronized (mSurfaceHolder) {
+	                        //if (mMode == STATE_RUNNING) updatePhysics();
+	                        doDraw(c);
+	                    }
                     }
                 } finally {
                     if (c != null) {
@@ -73,7 +75,7 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 	
-	private GameThread thread;
+	private RenderingThread thread;
 	private Context mContext;
 	
 	public GameSurfaceView(Context context, AttributeSet attrs) {
@@ -84,7 +86,7 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
 
         // create thread only; it's started in surfaceCreated()
-        thread = new GameThread(holder, context, new Handler());
+        thread = new RenderingThread(holder, context, new Handler());
 
         setFocusable(true); // make sure we get key events
 	}
@@ -118,7 +120,7 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         if (!hasWindowFocus) thread.pause();
     }
 
-	public GameThread getThread() {
+	public RenderingThread getThread() {
 		return thread;
 	}
 	

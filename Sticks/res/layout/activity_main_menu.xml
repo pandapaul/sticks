@@ -2,30 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="0dp"
+    android:background="#ffffffff"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainMenu" >
-
-    <Button
-        android:id="@+id/MainMenuSinglePlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="84dp"
-        android:onClick="tap"
-        android:text="Single Player" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    
+    <ImageView
+        android:id="@+id/ui_title"
+        android:layout_width="324dp"
+        android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="86dp"
-        android:text="Sticks"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:contentDescription="Sticks Logo"
+        android:src="@drawable/ui_title" />
+
+    <Button
+        android:id="@+id/button_mainmenu_singleplayer"
+        android:layout_width="200dp"
+        android:layout_height="68dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:onClick="tap"
+        android:background="@drawable/button_mainmenu_singleplayer" />
+
+    <Button
+        android:id="@+id/button_mainmenu_multiplayer"
+        android:layout_width="200dp"
+        android:layout_height="68dp"
+        android:layout_alignLeft="@+id/button_mainmenu_singleplayer"
+        android:layout_below="@+id/button_mainmenu_singleplayer"
+        android:layout_marginTop="10dp"
+        android:onClick="tap"
+        android:background="@drawable/button_mainmenu_multiplayer" />
 
 </RelativeLayout>
