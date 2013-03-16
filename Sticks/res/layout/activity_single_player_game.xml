@@ -2,72 +2,157 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff">
+    android:background="#ffffffff"
+    android:paddingBottom="10dp">
     
     <LinearLayout
-	    android:layout_width="150dp"
-	    android:layout_height="28dp"
+	    android:layout_width="187dp"
+	    android:layout_height="35dp"
 	    android:background="@drawable/ui_healthbar_background"
 	    android:id="@+id/layout_left_healthbar"
 	    android:paddingBottom="6dp">
 	    <ImageView
 	        android:contentDescription="@string/None"
-	        android:layout_width="15dp"
+	        android:layout_width="18dp"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/ui_healthbar_unit"
 	        android:id="@+id/ui_healthbar_left_1"
 	        android:layout_marginLeft="7dp"/>
        	<ImageView
 	        android:contentDescription="@string/None"
-	        android:layout_width="15dp"
+	        android:layout_width="18dp"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/ui_healthbar_unit"
 	        android:id="@+id/ui_healthbar_left_2"/>
         <ImageView
 	        android:contentDescription="@string/None"
-	        android:layout_width="15dp"
+	        android:layout_width="18dp"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/ui_healthbar_unit"
 	        android:id="@+id/ui_healthbar_left_3" />
+        <TextView
+            android:id="@+id/ui_playername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff000000"
+            android:textSize="20sp"
+            android:textIsSelectable="false"
+            android:text="@string/playername"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"/>
 	    
 	</LinearLayout>
 	
 	<LinearLayout
-	    android:layout_width="150dp"
-	    android:layout_height="28dp"
+	    android:layout_width="187dp"
+	    android:layout_height="35dp"
 	    android:layout_alignParentRight="true"
 	    android:background="@drawable/ui_healthbar_background_right"
 	    android:id="@+id/layout_right_healthbar"
 	    android:gravity="right"
 	    android:paddingBottom="6dp">
+        <TextView
+            android:id="@+id/ui_opponentname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff000000"
+            android:textSize="20sp"
+            android:textIsSelectable="false"
+            android:text="@string/opponentname"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"/>
+        
         <ImageView
 	        android:contentDescription="@string/None"
-	        android:layout_width="15dp"
+	        android:layout_width="18dp"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/ui_healthbar_unit"
 	        android:id="@+id/ui_healthbar_right_3"/>
         <ImageView
 	        android:contentDescription="@string/None"
-	        android:layout_width="15dp"
+	        android:layout_width="18dp"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/ui_healthbar_unit"
 	        android:id="@+id/ui_healthbar_right_2"/>
         <ImageView
 	        android:contentDescription="@string/None"
-	        android:layout_width="15dp"
+	        android:layout_width="18dp"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/ui_healthbar_unit"
 	        android:id="@+id/ui_healthbar_right_1"
 	        android:layout_marginRight="6dp"/>
 	    
 	</LinearLayout>
+	
 
+    
+	<Button
+        android:id="@+id/button_defendhigh"
+        android:layout_width="64dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_defendhigh"
+        android:onClick="tap"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentBottom="true"/>
+	
+	<Button
+        android:id="@+id/button_defendlow"
+        android:layout_width="64dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_defendlow"
+        android:onClick="tap"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/button_defendhigh"
+        android:layout_alignParentBottom="true"/>
+	
+	<Button
+        android:id="@+id/button_attacklow"
+        android:layout_width="64dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_attacklow"
+        android:onClick="tap"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+	
+	<Button
+        android:id="@+id/button_attackhigh"
+        android:layout_width="64dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_attackhigh"
+        android:onClick="tap"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/button_attacklow"/>
+	
+    <TextView
+	    android:id="@+id/ui_defendlabel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textColor="#ff000000"
+	    android:textSize="25sp"
+	    android:textIsSelectable="false"
+	    android:text="@string/defend"
+	    android:layout_marginLeft="47dp"
+	    android:layout_above="@id/button_defendhigh"/>
+    
     <com.jpapps.sticks.GameSurfaceView
         android:id="@+id/single_player_game_surface"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/layout_right_healthbar"
-         />
-    
+        android:layout_above="@id/ui_defendlabel"/>
+
+    <TextView
+        android:id="@+id/ui_attacklabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/ui_defendlabel"
+        android:layout_alignParentRight="true"
+        android:text="@string/attack"
+        android:textColor="#ff000000"
+        android:textIsSelectable="false"
+        android:textSize="25sp"
+        android:layout_marginRight="47dp"/>
 
 </RelativeLayout>

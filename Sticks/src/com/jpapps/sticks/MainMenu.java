@@ -26,11 +26,13 @@ public class MainMenu extends Activity {
 		case R.id.button_mainmenu_singleplayer:
 			Intent i = new Intent(this, com.jpapps.sticks.SinglePlayerGame.class);
 			startActivity(i);
+			break;
 		case R.id.button_mainmenu_multiplayer:
 			/*
 			Intent i = new Intent(this, com.jpapps.sticks.MultiplayerGame.class);
 			startActivity(i);
 			*/
+			break;
 		}
 	}
 
