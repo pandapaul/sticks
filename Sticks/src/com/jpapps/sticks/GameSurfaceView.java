@@ -26,68 +26,70 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 		private Handler mHandler;
 		private int mCanvasWidth;
 		private int mCanvasHeight;
-		private Bitmap playerIdle1;
-		private Bitmap playerIdle2;
-		private Bitmap playerIdle3;
-		private Bitmap playerIdle1Right;
-		private Bitmap playerIdle2Right;
-		private Bitmap playerIdle3Right;
+		
+		//State variables
+		public final static int RUNNING = 1;
+		public final static int PAUSED = 2;
+		int state = RUNNING;
+		
+		//Animation-related variables
+		public final static int PLAYER_IDLE_ANIM_FRAMES = 3;
 		
 		private long sleepTime;
 		private long delay = 180; //in milliseconds
 		private int frame = 1;
+		private Bitmap playerIdle;
+		private Bitmap playerIdleRight;
 		
-		public final static int RUNNING = 1;
-		public final static int PAUSED = 2;
-		int state = RUNNING;
 		
 		public RenderingThread(SurfaceHolder surfaceHolder, Context context, Handler handler) {
 			mSurfaceHolder = surfaceHolder;
 			mContext = context;
 			mHandler = handler;
 			Resources res = mContext.getResources();
-	        playerIdle1 = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle_1);
-	        playerIdle2 = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle_2);
-	        playerIdle3 = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle_3);
+	        playerIdle = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle);
 	        
 	        Matrix m = new Matrix();
 	        m.preScale(-1, 1);
-	        playerIdle1Right = Bitmap.createBitmap(playerIdle1, 0, 0, playerIdle1.getWidth(), playerIdle1.getHeight(), m, false);
-	        playerIdle2Right = Bitmap.createBitmap(playerIdle2, 0, 0, playerIdle2.getWidth(), playerIdle2.getHeight(), m, false);
-	        playerIdle3Right = Bitmap.createBitmap(playerIdle3, 0, 0, playerIdle3.getWidth(), playerIdle3.getHeight(), m, false);
+	        playerIdleRight = Bitmap.createBitmap(playerIdle, 0, 0, playerIdle.getWidth(), playerIdle.getHeight(), m, false);
 		}
 		
 		private void doDraw(Canvas canvas) {
 			//wipe the canvas
 			canvas.drawColor(0xffffffff);
-            Rect r;
+            Rect dst, src;
+            int playerIdleWidth = playerIdle.getWidth();
+            int playerIdleHeight = playerIdle.getHeight();
+            int playerIdleFrameWidth = playerIdleWidth/PLAYER_IDLE_ANIM_FRAMES;
             
             //This is temporary/test animation code. Should switch over to using sprites in conjunction with a game engine. But first, sleep.
             
             switch (frame) {
             case 1:
-            	r = new Rect(0, 0, mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight(), mCanvasHeight);
-                canvas.drawBitmap(playerIdle1, null, r, null);
-                r = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
-                canvas.drawBitmap(playerIdle1Right, null, r, null);
+            	src = new Rect(0,0,playerIdleFrameWidth,playerIdleHeight);
+            	dst = new Rect(0, 0, mCanvasHeight*playerIdleFrameWidth/playerIdleHeight, mCanvasHeight);
+                canvas.drawBitmap(playerIdle, src, dst, null);
+                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdleFrameWidth/playerIdleHeight), 0, mCanvasWidth, mCanvasHeight);
+                canvas.drawBitmap(playerIdleRight, src, dst, null);
                 break;
             case 2:
-            	r = new Rect(0, 0, mCanvasHeight*playerIdle2.getWidth()/playerIdle2.getHeight(), mCanvasHeight);
-                canvas.drawBitmap(playerIdle2, null, r, null);
-                r = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
-                canvas.drawBitmap(playerIdle2Right, null, r, null);
+            	src = new Rect(playerIdleFrameWidth,0,playerIdleFrameWidth*2,playerIdleHeight);
+            	dst = new Rect(0, 0, mCanvasHeight*playerIdleFrameWidth/playerIdleHeight, mCanvasHeight);
+                canvas.drawBitmap(playerIdle, src, dst, null);
+                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdleFrameWidth/playerIdleHeight), 0, mCanvasWidth, mCanvasHeight);
+                canvas.drawBitmap(playerIdleRight, src, dst, null);
                 break;
             case 3:
-            	r = new Rect(0, 0, mCanvasHeight*playerIdle3.getWidth()/playerIdle3.getHeight(), mCanvasHeight);
-                canvas.drawBitmap(playerIdle3, null, r, null);
-                r = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
-                canvas.drawBitmap(playerIdle3Right, null, r, null);
+            	dst = new Rect(0, 0, mCanvasHeight*playerIdle3.getWidth()/playerIdle3.getHeight(), mCanvasHeight);
+                canvas.drawBitmap(playerIdle3, null, dst, null);
+                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
+                canvas.drawBitmap(playerIdle3Right, null, dst, null);
                 break;
             case 4:
-            	r = new Rect(0, 0, mCanvasHeight*playerIdle2.getWidth()/playerIdle2.getHeight(), mCanvasHeight);
-                canvas.drawBitmap(playerIdle2, null, r, null);
-                r = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
-                canvas.drawBitmap(playerIdle2Right, null, r, null);
+            	dst = new Rect(0, 0, mCanvasHeight*playerIdle2.getWidth()/playerIdle2.getHeight(), mCanvasHeight);
+                canvas.drawBitmap(playerIdle2, null, dst, null);
+                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
+                canvas.drawBitmap(playerIdle2Right, null, dst, null);
                 break;
             }
             

@@ -83,10 +83,8 @@
 	        android:layout_marginRight="6dp"/>
 	    
 	</LinearLayout>
-	
-
-    
-	<Button
+		
+		<Button
         android:id="@+id/button_defendhigh"
         android:layout_width="64dp"
         android:layout_height="60dp"
