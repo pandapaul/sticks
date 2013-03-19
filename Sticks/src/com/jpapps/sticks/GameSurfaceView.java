@@ -80,16 +80,18 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                 canvas.drawBitmap(playerIdleRight, src, dst, null);
                 break;
             case 3:
-            	dst = new Rect(0, 0, mCanvasHeight*playerIdle3.getWidth()/playerIdle3.getHeight(), mCanvasHeight);
-                canvas.drawBitmap(playerIdle3, null, dst, null);
-                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
-                canvas.drawBitmap(playerIdle3Right, null, dst, null);
+            	src = new Rect(playerIdleFrameWidth*2,0,playerIdleFrameWidth*3,playerIdleHeight);
+            	dst = new Rect(0, 0, mCanvasHeight*playerIdleFrameWidth/playerIdleHeight, mCanvasHeight);
+                canvas.drawBitmap(playerIdle, src, dst, null);
+                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdleFrameWidth/playerIdleHeight), 0, mCanvasWidth, mCanvasHeight);
+                canvas.drawBitmap(playerIdleRight, src, dst, null);
                 break;
             case 4:
-            	dst = new Rect(0, 0, mCanvasHeight*playerIdle2.getWidth()/playerIdle2.getHeight(), mCanvasHeight);
-                canvas.drawBitmap(playerIdle2, null, dst, null);
-                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdle1.getWidth()/playerIdle1.getHeight()), 0, mCanvasWidth, mCanvasHeight);
-                canvas.drawBitmap(playerIdle2Right, null, dst, null);
+            	src = new Rect(playerIdleFrameWidth,0,playerIdleFrameWidth*2,playerIdleHeight);
+            	dst = new Rect(0, 0, mCanvasHeight*playerIdleFrameWidth/playerIdleHeight, mCanvasHeight);
+                canvas.drawBitmap(playerIdle, src, dst, null);
+                dst = new Rect(mCanvasWidth-(mCanvasHeight*playerIdleFrameWidth/playerIdleHeight), 0, mCanvasWidth, mCanvasHeight);
+                canvas.drawBitmap(playerIdleRight, src, dst, null);
                 break;
             }
             
