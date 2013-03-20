@@ -7,7 +7,7 @@ import android.view.SurfaceView;
 
 class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 	
-	private SpriteRenderer mFrameRenderer;
+	private SurfaceRenderer mFrameRenderer;
 	private Context mContext;
 	private Thread renderThread;
 	
@@ -19,7 +19,7 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         
-        mFrameRenderer = new SpriteRenderer(holder, mContext, 180);
+        mFrameRenderer = new SurfaceRenderer(holder, mContext, 180);
         setFocusable(true); // make sure we get key events
 	}
 
@@ -30,8 +30,8 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		if(mFrameRenderer.state == SpriteRenderer.PAUSED) {
-			mFrameRenderer = new SpriteRenderer(holder, mContext, 180);
+		if(mFrameRenderer.state == SurfaceRenderer.PAUSED) {
+			mFrameRenderer = new SurfaceRenderer(holder, mContext, 180);
 		}
 		renderThread = new Thread(mFrameRenderer);
 		renderThread.start();

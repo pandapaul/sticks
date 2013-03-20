@@ -1,5 +1,6 @@
 package com.jpapps.sticks;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,9 +15,9 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 
 /**
- * Sprite animation rendering class that implements Runnable.
+ * Surface animation rendering class that implements Runnable.
  */
-public class SpriteRenderer implements Runnable {
+public class SurfaceRenderer implements Runnable {
 
 	//SurfaceView related variables
 	protected SurfaceHolder mSurfaceHolder;
@@ -27,31 +28,43 @@ public class SpriteRenderer implements Runnable {
 	//State variables
 	public final static int RUNNING = 1;
 	public final static int PAUSED = 2;
-	protected int state = RUNNING;
+	protected int state;
 	
-	//Animation-related variables
-	protected long sleepTime;
-	protected long delayTime; //in milliseconds
+	//Timing variables
+	protected long desiredSleepTime;
+	protected long actualSleepTime;
 	
 	/**
-	 * Constructs a new FrameRenderer that will animate a canvas within the specified SurfaceHolder using resources from the provided context.
+	 * A list of all sprite animations that can be drawn by this SurfaceRenderer.
+	 */
+	protected ArrayList<SpriteAnimation> spriteAnimations;
+	
+	/**
+	 * Constructs a new SurfaceRenderer that will animate a canvas within the specified SurfaceHolder using resources from the provided context.
 	 * 
 	 * @param surfaceHolder holds the surface that will be animated.
 	 * @param context should provide the FrameRenderer with application context.
 	 * @param delay is the intended number of milliseconds between frame drawings.
 	 */
-	public SpriteRenderer(SurfaceHolder surfaceHolder, Context context, int delay) {
+	public SurfaceRenderer(SurfaceHolder surfaceHolder, Context context, int delay) {
 		mSurfaceHolder = surfaceHolder;
 		mContext = context;
+		state = RUNNING;
 		Resources res = mContext.getResources();
 		
         playerIdle = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle);
         
+        /* PRESERVING FOR HORIZONTAL MIRRORING EXAMPLE
         Matrix m = new Matrix();
         m.preScale(-1, 1);
         playerIdleRight = Bitmap.createBitmap(playerIdle, 0, 0, playerIdle.getWidth(), playerIdle.getHeight(), m, false);
+        */
 	}
 	
+	/**
+	 * Wipes the canvas then draws the appropriate objects.
+	 * @param canvas is where all drawing will be done.
+	 */
 	protected void doDraw(Canvas canvas) {
 		//wipe the canvas
 		canvas.drawColor(0xffffffff);
@@ -111,7 +124,6 @@ public class SpriteRenderer implements Runnable {
     public void run() {
         while (state == RUNNING) {
         	long beforeTime = System.nanoTime();
-        	
             Canvas c = null;
             try {
             	synchronized (mSurfaceHolder) {
@@ -122,13 +134,15 @@ public class SpriteRenderer implements Runnable {
                 }
             } finally {
                 if (c != null) {
-                    mSurfaceHolder.unlockCanvasAndPost(c);
+                	synchronized(mSurfaceHolder) {
+                		mSurfaceHolder.unlockCanvasAndPost(c);
+                	}
                 }
             }
-            sleepTime = delayTime - ((System.nanoTime()-beforeTime)/1000000L);
+            actualSleepTime = desiredSleepTime - ((System.nanoTime()-beforeTime)/1000000L);
             try {
-            	if(sleepTime > 0)
-            		Thread.sleep(sleepTime);
+            	if(actualSleepTime > 0)
+            		Thread.sleep(actualSleepTime);
             } catch (InterruptedException e) {
             	Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
