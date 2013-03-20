@@ -32,7 +32,6 @@ public class SinglePlayerGame extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         // just have the View's thread save its state into our Bundle
         super.onSaveInstanceState(outState);
-        mGameSurfaceView.getThread().saveState(outState);
         Log.w(this.getClass().getName(), "SIS called");
     }
     
