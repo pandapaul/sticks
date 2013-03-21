@@ -21,7 +21,6 @@ public class SurfaceRenderer implements Runnable {
 
 	//SurfaceView related variables
 	protected SurfaceHolder mSurfaceHolder;
-	protected Context mContext;
 	protected int mCanvasWidth;
 	protected int mCanvasHeight;
 	
@@ -34,10 +33,8 @@ public class SurfaceRenderer implements Runnable {
 	protected long desiredSleepTime;
 	protected long actualSleepTime;
 	
-	/**
-	 * A list of all sprite animations that can be drawn by this SurfaceRenderer.
-	 */
-	protected ArrayList<SpriteAnimation> spriteAnimations;
+	//Sprite variables
+	protected ArrayList<SpriteSheet> spriteSheets;
 	
 	/**
 	 * Constructs a new SurfaceRenderer that will animate a canvas within the specified SurfaceHolder using resources from the provided context.
@@ -46,14 +43,14 @@ public class SurfaceRenderer implements Runnable {
 	 * @param context should provide the FrameRenderer with application context.
 	 * @param delay is the intended number of milliseconds between frame drawings.
 	 */
-	public SurfaceRenderer(SurfaceHolder surfaceHolder, Context context, int delay) {
+	public SurfaceRenderer(SurfaceHolder surfaceHolder, int t) {
 		mSurfaceHolder = surfaceHolder;
-		mContext = context;
 		state = RUNNING;
-		Resources res = mContext.getResources();
+		desiredSleepTime = t;
 		
-        playerIdle = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle);
-        
+		//Load into memory any graphical resources we intend on using
+		
+		
         /* PRESERVING FOR HORIZONTAL MIRRORING EXAMPLE
         Matrix m = new Matrix();
         m.preScale(-1, 1);
