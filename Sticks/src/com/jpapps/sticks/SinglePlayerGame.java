@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 public class SinglePlayerGame extends Activity {
 
-	private GameSurfaceView mGameSurfaceView;
+	private FightSurfaceView mGameSurfaceView;
+	public int derp=0;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_single_player_game);
-	    mGameSurfaceView = (GameSurfaceView) findViewById(R.id.single_player_game_surface);
+	    mGameSurfaceView = (FightSurfaceView) findViewById(R.id.single_player_game_surface);
         
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/ampersand.ttf");
         TextView playerNameTextView = (TextView) findViewById(R.id.ui_playername);

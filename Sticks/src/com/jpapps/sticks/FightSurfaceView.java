@@ -5,13 +5,13 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 	
-	private SurfaceRenderer mFrameRenderer;
+	private StickFightRenderer fightRenderer;
 	private Context mContext;
 	private Thread renderThread;
 	
-	public GameSurfaceView(Context context, AttributeSet attrs) {
+	public FightSurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
 		mContext = context;
@@ -19,28 +19,28 @@ class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         
-        mFrameRenderer = new SurfaceRenderer(holder, mContext, 180);
-        setFocusable(true); // make sure we get key events
+        fightRenderer = new StickFightRenderer(holder, mContext, 180);
+        //setFocusable(true); // make sure we get key events
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		mFrameRenderer.setSurfaceSize(width, height);
+		fightRenderer.setSurfaceSize(width, height);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		if(mFrameRenderer.state == SurfaceRenderer.PAUSED) {
-			mFrameRenderer = new SurfaceRenderer(holder, mContext, 180);
+		if(fightRenderer.renderState == StickFightRenderer.PAUSED) {
+			fightRenderer = new StickFightRenderer(holder, mContext, 180);
 		}
-		renderThread = new Thread(mFrameRenderer);
+		renderThread = new Thread(fightRenderer);
 		renderThread.start();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
-		mFrameRenderer.pause();
+		fightRenderer.pause();
         while (retry) {
             try {
                 renderThread.join();

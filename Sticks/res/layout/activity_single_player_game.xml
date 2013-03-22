@@ -134,7 +134,7 @@
 	    android:layout_marginLeft="47dp"
 	    android:layout_above="@id/button_defendhigh"/>
     
-    <com.jpapps.sticks.GameSurfaceView
+    <com.jpapps.sticks.FightSurfaceView
         android:id="@+id/single_player_game_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
