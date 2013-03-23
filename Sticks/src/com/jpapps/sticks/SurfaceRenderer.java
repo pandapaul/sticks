@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
@@ -24,7 +25,7 @@ public class SurfaceRenderer implements Runnable {
 	
 	//Timing variables
 	private long desiredSleepTime;
-	private long actualSleepTime;
+	private long adjustedSleepTime;
 	
 	//Resource variables
 	protected Context mContext;
@@ -87,15 +88,13 @@ public class SurfaceRenderer implements Runnable {
                 }
             } finally {
                 if (c != null) {
-                	synchronized(mSurfaceHolder) {
                 		mSurfaceHolder.unlockCanvasAndPost(c);
-                	}
                 }
             }
-            actualSleepTime = desiredSleepTime - ((System.nanoTime()-beforeTime)/1000000L);
+            adjustedSleepTime = desiredSleepTime - ((System.nanoTime()-beforeTime)/1000000L);
             try {
-            	if(actualSleepTime > 0)
-            		Thread.sleep(actualSleepTime);
+            	if(adjustedSleepTime > 0)
+            		Thread.sleep(adjustedSleepTime);
             } catch (InterruptedException e) {
             	Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }

@@ -31,9 +31,10 @@ class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		if(fightRenderer.renderState == StickFightRenderer.PAUSED) {
+			//Restart the StickFightRenderer since it's paused 
 			fightRenderer = new StickFightRenderer(holder, mContext, 180);
 		}
-		renderThread = new Thread(fightRenderer);
+		renderThread = new Thread(fightRenderer, "Sticks.FightRendererThread");
 		renderThread.start();
 	}
 

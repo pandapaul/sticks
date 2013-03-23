@@ -35,34 +35,39 @@ public final class R {
         public static final int ui_healthbar_background_right=0x7f02000b;
         public static final int ui_healthbar_half=0x7f02000c;
         public static final int ui_healthbar_unit=0x7f02000d;
-        public static final int ui_title=0x7f02000e;
+        public static final int ui_loading=0x7f02000e;
+        public static final int ui_simple_title=0x7f02000f;
+        public static final int ui_title=0x7f020010;
     }
     public static final class id {
-        public static final int action_settings=0x7f080014;
-        public static final int button_attackhigh=0x7f080010;
-        public static final int button_attacklow=0x7f08000f;
-        public static final int button_defendhigh=0x7f08000d;
-        public static final int button_defendlow=0x7f08000e;
-        public static final int button_mainmenu_multiplayer=0x7f080002;
-        public static final int button_mainmenu_singleplayer=0x7f080001;
-        public static final int layout_left_healthbar=0x7f080003;
-        public static final int layout_right_healthbar=0x7f080008;
-        public static final int single_player_game_surface=0x7f080012;
-        public static final int ui_attacklabel=0x7f080013;
-        public static final int ui_defendlabel=0x7f080011;
-        public static final int ui_healthbar_left_1=0x7f080004;
-        public static final int ui_healthbar_left_2=0x7f080005;
-        public static final int ui_healthbar_left_3=0x7f080006;
-        public static final int ui_healthbar_right_1=0x7f08000c;
-        public static final int ui_healthbar_right_2=0x7f08000b;
-        public static final int ui_healthbar_right_3=0x7f08000a;
-        public static final int ui_opponentname=0x7f080009;
-        public static final int ui_playername=0x7f080007;
-        public static final int ui_title=0x7f080000;
+        public static final int action_settings=0x7f080016;
+        public static final int button_attackhigh=0x7f080012;
+        public static final int button_attacklow=0x7f080011;
+        public static final int button_defendhigh=0x7f08000f;
+        public static final int button_defendlow=0x7f080010;
+        public static final int button_mainmenu_multiplayer=0x7f080004;
+        public static final int button_mainmenu_singleplayer=0x7f080003;
+        public static final int layout_left_healthbar=0x7f080005;
+        public static final int layout_right_healthbar=0x7f08000a;
+        public static final int loading=0x7f080001;
+        public static final int loading_simple_title=0x7f080000;
+        public static final int single_player_game_surface=0x7f080014;
+        public static final int ui_attacklabel=0x7f080015;
+        public static final int ui_defendlabel=0x7f080013;
+        public static final int ui_healthbar_left_1=0x7f080006;
+        public static final int ui_healthbar_left_2=0x7f080007;
+        public static final int ui_healthbar_left_3=0x7f080008;
+        public static final int ui_healthbar_right_1=0x7f08000e;
+        public static final int ui_healthbar_right_2=0x7f08000d;
+        public static final int ui_healthbar_right_3=0x7f08000c;
+        public static final int ui_opponentname=0x7f08000b;
+        public static final int ui_playername=0x7f080009;
+        public static final int ui_title=0x7f080002;
     }
     public static final class layout {
-        public static final int activity_main_menu=0x7f030000;
-        public static final int activity_single_player_game=0x7f030001;
+        public static final int activity_load_screen=0x7f030000;
+        public static final int activity_main_menu=0x7f030001;
+        public static final int activity_single_player_game=0x7f030002;
     }
     public static final class menu {
         public static final int main_menu=0x7f070000;

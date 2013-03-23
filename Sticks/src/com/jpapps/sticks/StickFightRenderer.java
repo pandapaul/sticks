@@ -1,5 +1,7 @@
 package com.jpapps.sticks;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,23 +21,30 @@ public class StickFightRenderer extends SurfaceRenderer {
 	private final static int ATTACKING_LOW = 4;
 	
 	//Sprite sheets
+	private ArrayList<SpriteSheet> spriteSheets;
 	private SpriteSheet playerSheet;
+	private static int[] IDLE_ANIMATION_FRAMES = {1,2,3};
+	private SpriteAnimation idleAnimation;
 
 	public StickFightRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		super(surfaceHolder, context, time);
 		playerState = IDLE;
-		Resources res = context.getResources();
-		Bitmap playerBitmap = BitmapFactory.decodeResource(res, R.drawable.anim_stick_idle);
-		playerSheet = new SpriteSheet(playerBitmap, 300, 400);
+		
+		//Get all the sprites ready for use
+		SticksApplication sa = (SticksApplication) context.getApplicationContext();
+		spriteSheets = sa.getSpriteSheets();
+		playerSheet = spriteSheets.get(0);
+		idleAnimation = playerSheet.defineAnimation(IDLE_ANIMATION_FRAMES);
 	}
 
 	@Override
 	protected void doDraw(Canvas canvas) {
 		//Wipe the canvas to white
 		canvas.drawColor(Color.WHITE);
+		
 		switch(playerState) {
 		case IDLE:
-			
+			//canvas.drawBitmap(bitmap, source, dest, null);
 			break;
 		}
 	}
