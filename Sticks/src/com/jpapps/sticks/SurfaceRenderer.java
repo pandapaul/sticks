@@ -15,20 +15,20 @@ public class SurfaceRenderer implements Runnable {
 
 	//SurfaceView related variables
 	private SurfaceHolder mSurfaceHolder;
-	protected int mCanvasWidth;
-	protected int mCanvasHeight;
+	private int canvasWidth;
+	private int canvasHeight;
 	
 	//State variables
 	public final static int RUNNING = 1;
 	public final static int PAUSED = 2;
-	protected int renderState;
+	private int renderState;
 	
 	//Timing variables
 	private long desiredSleepTime;
 	private long adjustedSleepTime;
 	
 	//Resource variables
-	protected Context mContext;
+	private Context context;
 	
 	/**
 	 * Constructs a new SurfaceRenderer that will animate a canvas within the specified SurfaceHolder using resources from the provided context.
@@ -39,7 +39,7 @@ public class SurfaceRenderer implements Runnable {
 	 */
 	public SurfaceRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		mSurfaceHolder = surfaceHolder;
-		mContext = context;
+		this.context = context;
 		desiredSleepTime = time;
 		renderState = RUNNING;
 	}
@@ -54,8 +54,8 @@ public class SurfaceRenderer implements Runnable {
 	
     public void setSurfaceSize(int width, int height) {
         synchronized (mSurfaceHolder) {
-            mCanvasWidth = width;
-            mCanvasHeight = height;
+            setCanvasWidth(width);
+            setCanvasHeight(height);
         }
     }
     
@@ -100,4 +100,28 @@ public class SurfaceRenderer implements Runnable {
             }
         }
     }
+
+	public int getCanvasWidth() {
+		return canvasWidth;
+	}
+
+	public void setCanvasWidth(int canvasWidth) {
+		this.canvasWidth = canvasWidth;
+	}
+
+	public int getCanvasHeight() {
+		return canvasHeight;
+	}
+
+	public void setCanvasHeight(int canvasHeight) {
+		this.canvasHeight = canvasHeight;
+	}
+	
+	public int getRenderState() {
+		return renderState;
+	}
+
+	public void setRenderState(int renderState) {
+		this.renderState = renderState;
+	}
 }
