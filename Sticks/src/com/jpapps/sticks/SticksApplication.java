@@ -6,7 +6,7 @@ import android.app.Application;
 
 public class SticksApplication extends Application {
 	private ArrayList<SpriteSheet> spriteSheets;
-	private ArrayList<SpriteAnimation> spriteAnimations;
+	private ArrayList<NumberMill> spriteAnimations;
 	
 	public ArrayList<SpriteSheet> getSpriteSheets() {
 		return spriteSheets;
@@ -16,11 +16,11 @@ public class SticksApplication extends Application {
 		this.spriteSheets = sheets;
 	}
 
-	public ArrayList<SpriteAnimation> getSpriteAnimations() {
+	public ArrayList<NumberMill> getSpriteAnimations() {
 		return spriteAnimations;
 	}
 
-	public void setSpriteAnimations(ArrayList<SpriteAnimation> spriteAnimations) {
+	public void setSpriteAnimations(ArrayList<NumberMill> spriteAnimations) {
 		this.spriteAnimations = spriteAnimations;
 	}
 }

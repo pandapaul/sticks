@@ -16,7 +16,7 @@
         android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <activity
             android:screenOrientation="landscape"
-            android:name="com.jpapps.sticks.MainMenu"
+            android:name="com.jpapps.sticks.MainMenuActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

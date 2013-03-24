@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-public class SinglePlayerGame extends Activity {
+public class SinglePlayerGameActivity extends Activity {
 
 	private FightSurfaceView mGameSurfaceView;
 	

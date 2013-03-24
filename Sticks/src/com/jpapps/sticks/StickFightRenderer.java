@@ -31,31 +31,33 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int ATTACK_LOW_VS_ATTACK_HIGH = 15;
 	
 	//Player variables
-	private int playerState;
 	private int[] playerPosition = {0,0};
+	
+	//Opponent variables
+	private int[] opponentPosition = {0,0};
 	
 	//Sprite sheets
 	private ArrayList<SpriteSheet> spriteSheets;
 	private SpriteSheet playerSheet;
 	
 	//Sprite animations
-	private ArrayList<SpriteAnimation> spriteAnimations;
-	private SpriteAnimation playerIdleAnimation;
+	private ArrayList<NumberMill> spriteAnimations;
+	private NumberMill playerIdleAnimation;
 	
 	public StickFightRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		super(surfaceHolder, context, time);
-		playerState = IDLE;
+		battleAnimation = IDLE;
 		
 		//Get access to globals
 		SticksApplication sa = (SticksApplication) context.getApplicationContext();
 		
 		//Get sprite sheets ready for use`
 		spriteSheets = sa.getSpriteSheets();
-		playerSheet = spriteSheets.get(MainMenu.PLAYER_SHEET_INDEX);
+		playerSheet = spriteSheets.get(MainMenuActivity.PLAYER_SHEET_INDEX);
 		
 		//Get sprite animations ready for use
 		spriteAnimations = sa.getSpriteAnimations();
-		playerIdleAnimation = spriteAnimations.get(MainMenu.PLAYER_IDLE_ANIMATION_INDEX);
+		playerIdleAnimation = spriteAnimations.get(MainMenuActivity.PLAYER_IDLE_ANIMATION_INDEX);
 	}
 	
 	private Rect calculateDestinationRect(Rect r, float w, float h, int[] topleft) {
@@ -91,6 +93,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 			break;
 		case DEFEND_HIGH_VS_DEFEND_HIGH:
 			
+			break;
 		}
 	}
 	

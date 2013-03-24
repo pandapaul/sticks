@@ -12,7 +12,7 @@ import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.View;
 
-public class MainMenu extends Activity {
+public class MainMenuActivity extends Activity {
 	
 	//Public indexes for sprite sheets
 	public final static int PLAYER_SHEET_INDEX = 0;
@@ -24,7 +24,7 @@ public class MainMenu extends Activity {
 	private final static int[] playerSheetParams = {R.drawable.anim_stick_idle,1,3};
 	
 	//int[] for each sprite animation with parameters: {firstFrame, ... , lastFrame, type}
-	private final static int[] playerIdleAnimationParams = {1,1,1,1,2,2,2,2,3,3,3,3, SpriteAnimation.CYCLE};
+	private final static int[] playerIdleAnimationParams = {1,1,1,1,2,2,2,2,3,3,3,3, NumberMill.CYCLE};
 	
 	private class LoadSpriteAnimations extends AsyncTask<int[], Integer, Boolean> {	
 		
@@ -35,14 +35,14 @@ public class MainMenu extends Activity {
 		protected Boolean doInBackground(int[]... spriteAnimationParams) {
 			boolean complete = false;
 			int listCount = spriteAnimationParams.length;
-			ArrayList<SpriteAnimation> spriteAnimations = new ArrayList<SpriteAnimation>();
-			SpriteAnimation anim;
+			ArrayList<NumberMill> spriteAnimations = new ArrayList<NumberMill>();
+			NumberMill anim;
 			for (int i=0;i<listCount;i++) {
 				int[] animFrames = new int[spriteAnimationParams[i].length-1];
 				for(int j=0;j<animFrames.length;j++) {
 					animFrames[j] = spriteAnimationParams[i][j];
 				}
-				anim = new SpriteAnimation(animFrames, spriteAnimationParams[i][spriteAnimationParams.length-1]);
+				anim = new NumberMill(animFrames, spriteAnimationParams[i][spriteAnimationParams.length-1]);
 				spriteAnimations.add(PLAYER_IDLE_ANIMATION_INDEX,anim);
 				if(isCancelled()) return complete;
 			}
@@ -111,7 +111,7 @@ public class MainMenu extends Activity {
 	public void tap(View view) {
 		switch(view.getId()) {
 		case R.id.button_mainmenu_singleplayer:
-			Intent i = new Intent(this, com.jpapps.sticks.SinglePlayerGame.class);
+			Intent i = new Intent(this, com.jpapps.sticks.SinglePlayerGameActivity.class);
 			startActivity(i);
 			break;
 		case R.id.button_mainmenu_multiplayer:
