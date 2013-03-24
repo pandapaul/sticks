@@ -24,7 +24,7 @@ public class MainMenu extends Activity {
 	private final static int[] playerSheetParams = {R.drawable.anim_stick_idle,1,3};
 	
 	//int[] for each sprite animation with parameters: {firstFrame, ... , lastFrame, type}
-	private final static int[] playerIdleAnimationParams = {1,2,3, SpriteAnimation.CYCLE};
+	private final static int[] playerIdleAnimationParams = {1,1,1,1,2,2,2,2,3,3,3,3, SpriteAnimation.CYCLE};
 	
 	private class LoadSpriteAnimations extends AsyncTask<int[], Integer, Boolean> {	
 		

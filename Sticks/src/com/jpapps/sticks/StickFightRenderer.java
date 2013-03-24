@@ -11,15 +11,28 @@ import android.view.SurfaceHolder;
 
 public class StickFightRenderer extends SurfaceRenderer {
 	
-	//Player state variables
+	//Battle animation variables
+	private int battleAnimation;
+	public final static int IDLE = 0;
+	public final static int DEFEND_HIGH_VS_DEFEND_HIGH = 1;
+	public final static int DEFEND_HIGH_VS_DEFEND_LOW = 2;
+	public final static int DEFEND_HIGH_VS_ATTACK_HIGH = 3;
+	public final static int DEFEND_HIGH_VS_ATTACK_LOW = 4;
+	public final static int DEFEND_LOW_VS_DEFEND_LOW = 5;
+	public final static int DEFEND_LOW_VS_ATTACK_HIGH = 6;
+	public final static int DEFEND_LOW_VS_ATTACK_LOW = 7;
+	public final static int ATTACK_HIGH_VS_ATTACK_HIGH = 8;
+	public final static int ATTACK_HIGH_VS_ATTACK_LOW = 9;
+	public final static int ATTACK_LOW_VS_ATTACK_LOW = 10;
+	public final static int DEFEND_LOW_VS_DEFEND_HIGH = 11;
+	public final static int ATTACK_LOW_VS_DEFEND_HIGH = 12;
+	public final static int ATTACK_HIGH_VS_DEFEND_LOW = 13;
+	public final static int ATTACK_LOW_VS_DEFEND_LOW = 14;
+	public final static int ATTACK_LOW_VS_ATTACK_HIGH = 15;
+	
+	//Player variables
 	private int playerState;
-	private final static int IDLE = 0;
-	private final static int DEFENDING_HIGH = 1;
-	private final static int DEFENDING_LOW = 2;
-	private final static int ATTACKING_HIGH = 3;
-	private final static int ATTACKING_LOW = 4;
 	private int[] playerPosition = {0,0};
-	private Rect playerRect;
 	
 	//Sprite sheets
 	private ArrayList<SpriteSheet> spriteSheets;
@@ -28,8 +41,6 @@ public class StickFightRenderer extends SurfaceRenderer {
 	//Sprite animations
 	private ArrayList<SpriteAnimation> spriteAnimations;
 	private SpriteAnimation playerIdleAnimation;
-
-	private SpriteAnimation playerMovement;
 	
 	public StickFightRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		super(surfaceHolder, context, time);
@@ -38,24 +49,18 @@ public class StickFightRenderer extends SurfaceRenderer {
 		//Get access to globals
 		SticksApplication sa = (SticksApplication) context.getApplicationContext();
 		
-		//Get sprite sheets ready for use
+		//Get sprite sheets ready for use`
 		spriteSheets = sa.getSpriteSheets();
 		playerSheet = spriteSheets.get(MainMenu.PLAYER_SHEET_INDEX);
 		
 		//Get sprite animations ready for use
 		spriteAnimations = sa.getSpriteAnimations();
 		playerIdleAnimation = spriteAnimations.get(MainMenu.PLAYER_IDLE_ANIMATION_INDEX);
-		
-		int[] move = {0,30,60,90,120,150,180,210};
-		
-		playerMovement = new SpriteAnimation(move, SpriteAnimation.CYCLE);
 	}
 	
 	private Rect calculateDestinationRect(Rect r, float w, float h, int[] topleft) {
 		if(w<=0) {
-			Log.w("Sticks", "r.height() = " + r.height() + " h = " + h);
 			w = (float)r.width()/(float)r.height()*h;
-			Log.w("Sticks", "w = " + w);
 		}
 		if(h<=0) {
 			h = (float)r.height()/(float)r.width()*w;
@@ -64,19 +69,32 @@ public class StickFightRenderer extends SurfaceRenderer {
 		s.set(topleft[0], topleft[1], topleft[0]+(int)w, topleft[1]+(int)h);
 		return s;
 	}
+	
+	@Override
+	protected void update() {
+		
+	}
 
 	@Override
 	protected void doDraw(Canvas canvas) {
 		//Wipe the canvas to white
 		canvas.drawColor(Color.WHITE);
 		
-		switch(playerState) {
+		Rect src;
+		Rect dst;
+		
+		switch(battleAnimation) {
 		case IDLE:
-			playerPosition[0] = playerMovement.advance();
-			Rect src = playerSheet.getBox(playerIdleAnimation.advance());
-			Rect dst = calculateDestinationRect(src, 0, this.getCanvasHeight(), playerPosition);
+			src = playerSheet.getBox(playerIdleAnimation.advance());
+			dst = calculateDestinationRect(src, 0, this.getCanvasHeight(), playerPosition);
 			canvas.drawBitmap(playerSheet.getBitmap(), src, dst, null);
 			break;
+		case DEFEND_HIGH_VS_DEFEND_HIGH:
+			
 		}
+	}
+	
+	public void setBattleAnimation(int battleAnimation) {
+		this.battleAnimation = battleAnimation;
 	}
 }

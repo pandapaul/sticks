@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
- * Surface animation rendering class that implements Runnable. Should be extended to override doDraw().
+ * Surface animation rendering class that implements Runnable. Should be extended to override doDraw() and update().
  */
 public class SurfaceRenderer implements Runnable {
 
@@ -52,6 +52,14 @@ public class SurfaceRenderer implements Runnable {
 		
     }
 	
+	/**
+	 * Should be overridden to perform all updates to the state of objects being drawn.
+	 * @param canvas is where all drawing will be done.
+	 */
+	protected void update() {
+		
+	}
+	
     public void setSurfaceSize(int width, int height) {
         synchronized (mSurfaceHolder) {
             setCanvasWidth(width);
@@ -83,6 +91,7 @@ public class SurfaceRenderer implements Runnable {
             	synchronized (mSurfaceHolder) {
             		c = mSurfaceHolder.lockCanvas(null);
             		if(c!=null) {
+            			update();
                 		doDraw(c);
             		}
                 }

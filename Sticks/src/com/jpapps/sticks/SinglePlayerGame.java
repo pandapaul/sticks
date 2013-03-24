@@ -10,7 +10,6 @@ import android.widget.TextView;
 public class SinglePlayerGame extends Activity {
 
 	private FightSurfaceView mGameSurfaceView;
-	public int derp=0;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -19,6 +18,7 @@ public class SinglePlayerGame extends Activity {
 	    setContentView(R.layout.activity_single_player_game);
 	    mGameSurfaceView = (FightSurfaceView) findViewById(R.id.single_player_game_surface);
         
+	    //Give the textviews the right font
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/ampersand.ttf");
         TextView playerNameTextView = (TextView) findViewById(R.id.ui_playername);
         playerNameTextView.setTypeface(font,1);
@@ -32,9 +32,8 @@ public class SinglePlayerGame extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // just have the View's thread save its state into our Bundle
         super.onSaveInstanceState(outState);
-        Log.w(this.getClass().getName(), "SIS called");
+        //Log.w(this.getClass().getName(), "SIS called");
     }
     
     public void tap(View view) {
