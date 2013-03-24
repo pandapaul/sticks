@@ -32,41 +32,46 @@ public class NumberMill {
 	}
 	
 	public int advance() {
-		switch(behavior) {
-		case CYCLE:
-			if(reverse) {
-				if(currentNumberIndex <= 0) {
-					currentNumberIndex = 0;
-					reverse = false;
+		if(currentNumberIndex == -1) {
+			currentNumberIndex = 0;
+		}
+		else {
+			switch(behavior) {
+			case CYCLE:
+				if(reverse) {
+					if(currentNumberIndex <= 0) {
+						currentNumberIndex = 0;
+						reverse = false;
+					}
+					else {
+						currentNumberIndex--;
+					}
 				}
 				else {
-					currentNumberIndex--;
+					if(currentNumberIndex >= numbers.length-1) {
+						currentNumberIndex--;
+						reverse = true;
+					}
+					else {
+						currentNumberIndex++;
+					}
 				}
-			}
-			else {
+				break;
+			case LOOP:
 				if(currentNumberIndex >= numbers.length-1) {
-					currentNumberIndex--;
-					reverse = true;
+					currentNumberIndex=0;
 				}
 				else {
 					currentNumberIndex++;
-				}
+				};
+				break;
+			case ONCE:
+				if(currentNumberIndex < numbers.length-1)
+					currentNumberIndex++;
+				break;
+			default:
+				break;
 			}
-			break;
-		case LOOP:
-			if(currentNumberIndex >= numbers.length-1) {
-				currentNumberIndex=0;
-			}
-			else {
-				currentNumberIndex++;
-			};
-			break;
-		case ONCE:
-			if(currentNumberIndex < numbers.length-1)
-				currentNumberIndex++;
-			break;
-		default:
-			break;
 		}
 		return numbers[currentNumberIndex];
 	}

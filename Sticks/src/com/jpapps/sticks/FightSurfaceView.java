@@ -19,8 +19,7 @@ class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         
-        fightRenderer = new StickFightRenderer(holder, mContext, 70);
-        //setFocusable(true); // make sure we get key events
+        fightRenderer = new StickFightRenderer(holder, mContext, 80);
 	}
 
 	@Override
@@ -50,5 +49,9 @@ class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             } catch (InterruptedException e) {
             }
         }
+	}
+	
+	public StickFightRenderer getRenderer() {
+		return fightRenderer;
 	}
 }

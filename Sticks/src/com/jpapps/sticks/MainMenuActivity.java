@@ -16,48 +16,10 @@ public class MainMenuActivity extends Activity {
 	
 	//Public indexes for sprite sheets
 	public final static int PLAYER_SHEET_INDEX = 0;
+	public static SpriteSheet playerSheet;
 	
-	//Public indexes for sprite animations
-	public final static int PLAYER_IDLE_ANIMATION_INDEX = 0;
-	
-	//int[] for each sprite sheet with 3 parameters: ID, rows, & cols.
-	private final static int[] playerSheetParams = {R.drawable.anim_stick_idle,1,3};
-	
-	//int[] for each sprite animation with parameters: {firstFrame, ... , lastFrame, type}
-	private final static int[] playerIdleAnimationParams = {1,1,1,1,2,2,2,2,3,3,3,3, NumberMill.CYCLE};
-	
-	private class LoadSpriteAnimations extends AsyncTask<int[], Integer, Boolean> {	
-		
-		//Get a reference to SticksApplication so that we can keep track of all the stuff we're gonna load
-		protected SticksApplication sa = (SticksApplication)getApplicationContext();
-		
-		@Override
-		protected Boolean doInBackground(int[]... spriteAnimationParams) {
-			boolean complete = false;
-			int listCount = spriteAnimationParams.length;
-			ArrayList<NumberMill> spriteAnimations = new ArrayList<NumberMill>();
-			NumberMill anim;
-			for (int i=0;i<listCount;i++) {
-				int[] animFrames = new int[spriteAnimationParams[i].length-1];
-				for(int j=0;j<animFrames.length;j++) {
-					animFrames[j] = spriteAnimationParams[i][j];
-				}
-				anim = new NumberMill(animFrames, spriteAnimationParams[i][spriteAnimationParams.length-1]);
-				spriteAnimations.add(PLAYER_IDLE_ANIMATION_INDEX,anim);
-				if(isCancelled()) return complete;
-			}
-			sa.setSpriteAnimations(spriteAnimations);
-			complete = true;
-			return complete;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if(result = true) {
-				new LoadSpriteSheets().execute(playerSheetParams);
-			}
-	    }
-	}
+	//int[] for each sprite sheet with 3 parameters: ID, rows, & columns.
+	private final static int[] playerSheetParams = {R.drawable.spritesheet_stick,2,6};
 	
 	private class LoadSpriteSheets extends AsyncTask<int[], Integer, Boolean> {	
 		
@@ -71,15 +33,9 @@ public class MainMenuActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(int[]... spriteSheetParams) {
 			boolean complete = false;
-			int listCount = spriteSheetParams.length;
-			ArrayList<SpriteSheet> spriteSheets = new ArrayList<SpriteSheet>();
-			for (int i=0;i<listCount;i++) {
-				b = BitmapFactory.decodeResource(res, spriteSheetParams[i][0]);
-				s = new SpriteSheet(b, spriteSheetParams[i][1], spriteSheetParams[i][2]);
-				spriteSheets.add(PLAYER_SHEET_INDEX, s);
-				if(isCancelled()) return complete;
-			}
-			sa.setSpriteSheets(spriteSheets);
+			b = BitmapFactory.decodeResource(res, R.drawable.spritesheet_stick);
+			s = new SpriteSheet(b, 2, 6);
+			playerSheet = s;
 			complete = true;
 			try {
 				Thread.sleep(1000);
@@ -101,11 +57,13 @@ public class MainMenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().setWindowAnimations(android.R.anim.slide_in_left);
-		setContentView(R.layout.activity_load_screen);
 		
-		//Load 'em up using an AsyncTask
-		new LoadSpriteAnimations().execute(playerIdleAnimationParams);
-		//new LoadSpriteSheets().execute(playerSheetParams);
+		if(playerSheet == null) {
+			setContentView(R.layout.activity_load_screen);
+			new LoadSpriteSheets().execute(playerSheetParams);
+		} else {
+			setContentView(R.layout.activity_main_menu);
+		}
 	}
 	
 	public void tap(View view) {

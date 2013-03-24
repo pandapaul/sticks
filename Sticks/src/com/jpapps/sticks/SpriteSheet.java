@@ -3,6 +3,7 @@ package com.jpapps.sticks;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -11,7 +12,7 @@ import android.util.Log;
  */
 public class SpriteSheet {
 	protected String name;
-	protected Bitmap bitmap;
+	protected Bitmap bitmap, mirroredBitmap;
 	protected int rows, cols, spriteWidth, spriteHeight;
 	//protected ArrayList<SpriteAnimation> spriteAnimations;
 	protected ArrayList<Rect> boxes = new ArrayList<Rect>();
@@ -25,6 +26,9 @@ public class SpriteSheet {
 	 */
 	public SpriteSheet(Bitmap b, int r, int c) {
 		this.bitmap = b;
+		Matrix m = new Matrix();
+        m.preScale(-1, 1);
+        mirroredBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, false);
 		this.rows = r;
 		this.cols = c;
 		this.spriteWidth = b.getWidth()/c;
@@ -64,7 +68,19 @@ public class SpriteSheet {
 		return bitmap;
 	}
 	
+	public Bitmap getMirroredBitmap() {
+		return mirroredBitmap;
+	}
+	
 	public Rect getBox(int id) {
 		return boxes.get(id-1);
+	}
+	
+	public Rect getMirroredBox(int id) {
+		int y = id/(cols+1);
+		int x = id%(cols+1);
+		int newx = cols - x;
+		int newid = newx + y*(cols-1);
+		return boxes.get(newid);
 	}
 }

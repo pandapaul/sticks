@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="SinglePlayerGame"
+            android:name="SinglePlayerGameActivity"
             android:launchMode="singleTask"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="landscape">

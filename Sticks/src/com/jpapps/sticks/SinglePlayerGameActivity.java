@@ -9,14 +9,16 @@ import android.widget.TextView;
 
 public class SinglePlayerGameActivity extends Activity {
 
-	private FightSurfaceView mGameSurfaceView;
+	private FightSurfaceView fightSurfaceView;
+	private StickFightRenderer fightRenderer;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    getWindow().setWindowAnimations(android.R.anim.slide_in_left);
 	    setContentView(R.layout.activity_single_player_game);
-	    mGameSurfaceView = (FightSurfaceView) findViewById(R.id.single_player_game_surface);
+	    fightSurfaceView = (FightSurfaceView) findViewById(R.id.single_player_game_surface);
+	    fightRenderer = fightSurfaceView.getRenderer();
         
 	    //Give the textviews the right font
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/ampersand.ttf");
@@ -38,8 +40,14 @@ public class SinglePlayerGameActivity extends Activity {
     
     public void tap(View view) {
 		switch(view.getId()) {
+		case R.id.button_defendhigh:
+			//This should eventually be changed to process some game logic then decide the outcome.
+			//Just using it to test out animations right now.
+			fightSurfaceView.getRenderer().setBattleAnimation(StickFightRenderer.DEFEND_HIGH_VS_DEFEND_HIGH);
+			break;
 		default:
 			// What button did you push this time?
+			break;
 		}
 	}
 

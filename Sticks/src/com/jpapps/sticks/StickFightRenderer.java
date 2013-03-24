@@ -3,8 +3,10 @@ package com.jpapps.sticks;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -43,6 +45,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 	//Sprite animations
 	private ArrayList<NumberMill> spriteAnimations;
 	private NumberMill playerIdleAnimation;
+	private NumberMill playerDefendHighAnimation;
 	
 	public StickFightRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		super(surfaceHolder, context, time);
@@ -53,11 +56,14 @@ public class StickFightRenderer extends SurfaceRenderer {
 		
 		//Get sprite sheets ready for use`
 		spriteSheets = sa.getSpriteSheets();
-		playerSheet = spriteSheets.get(MainMenuActivity.PLAYER_SHEET_INDEX);
+		playerSheet = MainMenuActivity.playerSheet;
 		
 		//Get sprite animations ready for use
+		int[] playerIdleFrames = {1,2,3};
+		playerIdleAnimation = new NumberMill(playerIdleFrames, NumberMill.CYCLE);
+		int[] playerDefendHighFrames = {2,4,5,6,7};
+		playerDefendHighAnimation = new NumberMill(playerDefendHighFrames, NumberMill.ONCE);
 		spriteAnimations = sa.getSpriteAnimations();
-		playerIdleAnimation = spriteAnimations.get(MainMenuActivity.PLAYER_IDLE_ANIMATION_INDEX);
 	}
 	
 	private Rect calculateDestinationRect(Rect r, float w, float h, int[] topleft) {
@@ -84,15 +90,43 @@ public class StickFightRenderer extends SurfaceRenderer {
 		
 		Rect src;
 		Rect dst;
+		Bitmap bitmap;
+		int frame;
+		
+		// This whole section is gonna need some work.
+		// Making a drawableGameObject class might be a good way to clean it up.
 		
 		switch(battleAnimation) {
 		case IDLE:
-			src = playerSheet.getBox(playerIdleAnimation.advance());
+			frame = playerIdleAnimation.advance();
+			src = playerSheet.getBox(frame);
 			dst = calculateDestinationRect(src, 0, this.getCanvasHeight(), playerPosition);
-			canvas.drawBitmap(playerSheet.getBitmap(), src, dst, null);
+			bitmap = playerSheet.getBitmap();
+			canvas.drawBitmap(bitmap, src, dst, null);
+			src = playerSheet.getMirroredBox(frame);
+			//Just having the opponent's position mirror the player's position for now
+			opponentPosition[0] = canvas.getWidth() - playerPosition[0] - dst.width();
+			opponentPosition[1] = playerPosition[1];
+			dst = calculateDestinationRect(src, 0, this.getCanvasHeight(),opponentPosition);
+			bitmap = playerSheet.getMirroredBitmap();
+			canvas.drawBitmap(bitmap, src, dst, null);
 			break;
 		case DEFEND_HIGH_VS_DEFEND_HIGH:
-			
+			frame = playerDefendHighAnimation.advance();
+			src = playerSheet.getBox(frame);
+			dst = calculateDestinationRect(src, 0, this.getCanvasHeight(), playerPosition);
+			bitmap = playerSheet.getBitmap();
+			canvas.drawBitmap(bitmap, src, dst, null);
+			src = playerSheet.getMirroredBox(frame);
+			//Just having the opponent's position mirror the player's position for now
+			opponentPosition[0] = canvas.getWidth() - playerPosition[0] - dst.width();
+			opponentPosition[1] = playerPosition[1];
+			dst = calculateDestinationRect(src, 0, this.getCanvasHeight(),opponentPosition);
+			bitmap = playerSheet.getMirroredBitmap();
+			canvas.drawBitmap(bitmap, src, dst, null);
+			break;
+		default:
+			Log.w("Sticks","StickFightRenderer received an unknown battleAnimation state.");
 			break;
 		}
 	}
