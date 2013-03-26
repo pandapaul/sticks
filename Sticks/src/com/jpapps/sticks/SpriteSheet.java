@@ -2,10 +2,11 @@ package com.jpapps.sticks;
 
 import java.util.ArrayList;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.util.Log;
 
 /**
  * Class for establishing the various properties of a sprite sheet and performing operations on it.
@@ -24,15 +25,15 @@ public class SpriteSheet {
 	 * @param w is individual sprite width
 	 * @param h is individual sprite height
 	 */
-	public SpriteSheet(Bitmap b, int r, int c) {
-		this.bitmap = b;
+	public SpriteSheet(Resources res, int resId, int r, int c) {
+		this.bitmap = BitmapFactory.decodeResource(res , resId);
 		Matrix m = new Matrix();
         m.preScale(-1, 1);
         mirroredBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, false);
 		this.rows = r;
 		this.cols = c;
-		this.spriteWidth = b.getWidth()/c;
-		this.spriteHeight = b.getHeight()/r;
+		this.spriteWidth = bitmap.getWidth()/c;
+		this.spriteHeight = bitmap.getHeight()/r;
 		//Log.w("Sticks", "Bitmap width: " + bitmap.getWidth() + ".  Bitmap height: " + bitmap.getHeight());
 		//Log.w("Sticks", "spritesheet has "+ rows + " rows and " + cols + " cols.");
 		//Calculate the boxes

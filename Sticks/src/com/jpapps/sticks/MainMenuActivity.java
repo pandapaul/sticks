@@ -20,9 +20,6 @@ public class MainMenuActivity extends Activity {
 	
 	private class LoadSpriteSheets extends AsyncTask<SpriteSheet, Integer, Boolean> {	
 		
-		//Get a reference to SticksApplication so that we can keep track of all the stuff we're gonna load
-		SticksApplication sa = (SticksApplication)getApplicationContext();
-
 		protected Resources res = getResources();
 		protected Bitmap b;
 		protected SpriteSheet s;
@@ -30,8 +27,7 @@ public class MainMenuActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(SpriteSheet... spriteSheets) {
 			boolean complete = false;
-			b = BitmapFactory.decodeResource(res, R.drawable.spritesheet_stick);
-			s = new SpriteSheet(b, 2, 6);
+			s = new SpriteSheet(res, R.drawable.spritesheet_stick, 2, 6);
 			playerSheet = s;
 			complete = true;
 			try {
