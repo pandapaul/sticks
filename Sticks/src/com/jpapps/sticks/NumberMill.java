@@ -27,7 +27,7 @@ public class NumberMill {
 	
 	public NumberMill(int[] ids, int b) {
 		numbers = ids;
-		currentNumberIndex = -1;
+		currentNumberIndex = 0;
 		behavior = b;
 	}
 	
@@ -73,6 +73,10 @@ public class NumberMill {
 				break;
 			}
 		}
+		return getCurrent();
+	}
+	
+	public int getCurrent() {
 		return numbers[currentNumberIndex];
 	}
 }

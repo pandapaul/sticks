@@ -21,14 +21,11 @@ public class MainMenuActivity extends Activity {
 	private class LoadSpriteSheets extends AsyncTask<SpriteSheet, Integer, Boolean> {	
 		
 		protected Resources res = getResources();
-		protected Bitmap b;
-		protected SpriteSheet s;
 		
 		@Override
 		protected Boolean doInBackground(SpriteSheet... spriteSheets) {
 			boolean complete = false;
-			s = new SpriteSheet(res, R.drawable.spritesheet_stick, 2, 6);
-			playerSheet = s;
+			playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, 3, 6);
 			complete = true;
 			try {
 				//Using this for now just to make sure that the load screen doesn't flash by too quickly

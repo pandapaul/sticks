@@ -43,7 +43,7 @@ public class SinglePlayerGameActivity extends Activity {
 		case R.id.button_defendhigh:
 			//This should eventually be changed to process some game logic then decide the outcome.
 			//Just using it to test out animations right now.
-			fightSurfaceView.getRenderer().setBattleAnimation(StickFightRenderer.DEFEND_HIGH_VS_DEFEND_HIGH);
+			fightSurfaceView.getRenderer().setBattleAnimation(StickFightRenderer.ENGAGE);
 			break;
 		default:
 			// What button did you push this time?
