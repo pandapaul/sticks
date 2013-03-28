@@ -79,4 +79,8 @@ public class NumberMill {
 	public int getCurrent() {
 		return numbers[currentNumberIndex];
 	}
+	
+	public int getBehavior() {
+		return behavior;
+	}
 }

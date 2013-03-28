@@ -35,7 +35,7 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 			boolean complete = false;
 			
 			if(playerSheet == null)
-				playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, 3, 6);
+				playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, 4, 6);
 			
 			mp1 = MediaPlayer.create(getApplicationContext(), R.raw.sticks_main_introriff);
 			mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
@@ -86,6 +86,8 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 		switch(view.getId()) {
 		case R.id.button_mainmenu_singleplayer:
 			Intent i = new Intent(this, com.jpapps.sticks.SinglePlayerGameActivity.class);
+			if(mp1.isPlaying()) mp1.stop();
+			if(mp2.isPlaying()) mp2.stop();
 			startActivity(i);
 			break;
 		case R.id.button_mainmenu_multiplayer:
