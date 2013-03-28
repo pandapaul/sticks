@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Class for establishing the various properties of a sprite sheet and performing operations on it.
@@ -78,10 +79,14 @@ public class SpriteSheet {
 	}
 	
 	public Rect getMirroredBox(int id) {
-		int y = id/(cols+1);
-		int x = id%(cols+1);
-		int newx = cols - x;
-		int newid = newx + y*(cols-1);
-		return boxes.get(newid);
+		int x = id%cols;
+		int y = id/cols + 1;
+		if(x==0 && y>0) {
+			y--;
+			x=cols;
+		}
+		int newx = cols - x + 1;
+		int newid = newx + (y-1)*cols;
+		return boxes.get(newid-1);
 	}
 }

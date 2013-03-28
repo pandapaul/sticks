@@ -1,5 +1,7 @@
 package com.jpapps.sticks;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -38,12 +40,22 @@ public class SinglePlayerGameActivity extends Activity {
         //Log.w(this.getClass().getName(), "SIS called");
     }
     
+    protected int randOpponentSelection() {
+    	double rando = new Random().nextDouble();
+    	if(rando < 0.5 ) {
+    		return StickFightRenderer.DEFEND_HIGH;
+    	} else {
+    		return StickFightRenderer.ATTACK_HIGH;
+    	}
+    }
+    
     public void tap(View view) {
 		switch(view.getId()) {
 		case R.id.button_defendhigh:
-			//This should eventually be changed to process some game logic then decide the outcome.
-			//Just using it to test out animations right now.
-			fightSurfaceView.getRenderer().setBattleAnimation(StickFightRenderer.ENGAGE);
+			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.DEFEND_HIGH, randOpponentSelection());
+			break;
+		case R.id.button_attackhigh:
+			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.ATTACK_HIGH, randOpponentSelection());
 			break;
 		default:
 			// What button did you push this time?

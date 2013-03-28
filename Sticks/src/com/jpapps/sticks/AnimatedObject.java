@@ -6,11 +6,11 @@ public class AnimatedObject {
 	private NumberMill pathY;
 	private int currentFrame;
 	private int[] currentPathPosition;
-	private int[] defaultPath = {0};
-	private NumberMill noPath = new NumberMill(defaultPath,NumberMill.ONCE);
+	private static int[] defaultPath = {0};
+	private static NumberMill noPath = new NumberMill(defaultPath,NumberMill.ONCE);
 	
 	public AnimatedObject(NumberMill framesMill) {
-		this(framesMill, null, null);
+		this(framesMill, noPath, noPath);
 	}
 	
 	public AnimatedObject(NumberMill framesMill, NumberMill pathX, NumberMill pathY) {
@@ -20,6 +20,12 @@ public class AnimatedObject {
 		this.currentPathPosition = new int[2];
 		this.currentPathPosition[0] = this.pathX.getCurrent();
 		this.currentPathPosition[1] = this.pathY.getCurrent();
+	}
+	
+	public void restart() {
+		this.framesMill.restart();
+		this.pathX.restart();
+		this.pathY.restart();
 	}
 
 	public NumberMill getFramesMill() {
@@ -44,14 +50,18 @@ public class AnimatedObject {
 	}
 	
 	public void setPathX(NumberMill pathX) {
-		if(pathX==null)
-			pathX = noPath;
+		if(pathX==null) {
+			int[] n = {currentPathPosition[0]};
+			pathX = new NumberMill(n,NumberMill.ONCE);
+		}
 		this.pathX = pathX;
 	}
 	
 	public void setPathY(NumberMill pathY) {
-		if(pathY==null)
-			pathY = noPath;
+		if(pathY==null) {
+			int[] n = {currentPathPosition[0]};
+			pathY = new NumberMill(n,NumberMill.ONCE);
+		}
 		this.pathY = pathY;
 	}
 	
@@ -70,8 +80,8 @@ public class AnimatedObject {
 	}
 	
 	public void noPath() {
-		pathX = noPath;
-		pathY = noPath;
+		this.setPathX(null);
+		this.setPathY(null);
 	}
 
 }

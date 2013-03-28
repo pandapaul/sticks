@@ -107,6 +107,14 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 	@Override
 	public void onResume() {
 		super.onResume();
+		if(mp2 != null) {
+			if(!mp1.isPlaying() && !mp2.isPlaying()) {
+				mp2.start();
+			}
+		} else {
+			mp2 = MediaPlayer.create(getApplicationContext(), R.raw.sticks_main_loop);
+			mp2.setLooping(true);
+		}
 	}
 	
 	@Override

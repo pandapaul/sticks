@@ -31,6 +31,10 @@ public class NumberMill {
 		behavior = b;
 	}
 	
+	public void restart() {
+		currentNumberIndex = 0;
+	}
+	
 	public int advance() {
 		if(currentNumberIndex == -1) {
 			currentNumberIndex = 0;
