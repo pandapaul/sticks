@@ -25,11 +25,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 	
 	//Sprite animations
 	public final static int[] stickIdleFrames = {1,1,2,2,3,3,4,4};
-	public final static int[] stickRunFrames = {5,6,7,8,9,10,11,12};
+	public final static int[] stickRunFrames = {4,5,6,7,8,9,10,11,12,12};
 	public final static int[] stickDefendHighFrames = {13,14,15,16};
 	public final static int[] stickAttackHighFrames = {17,18,19};
-	public final static int[] pathRunLeftToMiddle = {0,2,7,12,19,26,32,35};
-	public final static int[] pathRunRightToMiddle = {75,73,68,63,56,49,43,40};
+	public final static int[] pathRunLeftToMiddle = {0,2,7,12,19,28,35};
+	public final static int[] pathRunRightToMiddle = {75,73,68,63,56,47,40};
 	
 	private NumberMill stickIdleAnimation;
 	private NumberMill stickRunAnimation;
@@ -89,7 +89,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 	
 	@Override
 	protected void update() {
-		if(engaging && player.getCurrentFrame() == stickRunFrames[stickRunFrames.length-1]) {
+		if(engaging && player.getFramesMill().isFinished()) {
 			engaging = false;
 			//Sticks are fully engaged. Move on to next animation.
 			switch(playerChoice) {

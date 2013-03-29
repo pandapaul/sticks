@@ -6,6 +6,7 @@ public class NumberMill {
 	protected int currentNumberIndex;
 	protected int behavior;
 	protected boolean reverse = false;
+	protected boolean finished;
 	
 	/**
 	 * When set as a NumberMill's behavior, numbers will advance forwards then backwards.<br>
@@ -29,10 +30,16 @@ public class NumberMill {
 		numbers = ids;
 		currentNumberIndex = 0;
 		behavior = b;
+		finished = false;
+	}
+	
+	public boolean isFinished() {
+		return finished;
 	}
 	
 	public void restart() {
 		currentNumberIndex = 0;
+		finished = false;
 	}
 	
 	public int advance() {
@@ -72,6 +79,8 @@ public class NumberMill {
 			case ONCE:
 				if(currentNumberIndex < numbers.length-1)
 					currentNumberIndex++;
+				else
+					finished = true;
 				break;
 			default:
 				break;
