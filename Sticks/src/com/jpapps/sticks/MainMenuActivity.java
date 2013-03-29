@@ -25,6 +25,9 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 	protected MediaPlayer mp1;
 	protected MediaPlayer mp2;
 	protected AudioManager audioManager;
+	public final static int MAX_VOLUME = 100;
+	public final static int NORMAL_VOLUME = 85;
+	public final static int DUCK_VOLUME = 30;
 	
 	private class LoadSpriteSheets extends AsyncTask<SpriteSheet, Integer, Boolean> {	
 		
@@ -82,12 +85,45 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 		mp1.start();
 	}
 	
+	protected void stopAudio() {
+		if(mp1.isPlaying()) {
+			mp1.setOnCompletionListener(null);
+			mp1.stop();
+		}
+		if(mp2.isPlaying()) mp2.stop();
+	}
+	
+	protected void startAudio() {
+		if(mp2 != null) {
+			if(!mp1.isPlaying() && !mp2.isPlaying()) {
+				mp2.start();
+			}
+		} else {
+			mp2 = MediaPlayer.create(getApplicationContext(), R.raw.sticks_main_loop);
+			mp2.setLooping(true);
+		}
+	}
+	
+	protected void setLogVolume(MediaPlayer mp, int volume) {
+		float logVolume = (float)(1-(Math.log(MAX_VOLUME-volume)/Math.log(MAX_VOLUME)));
+		mp.setVolume(logVolume, logVolume);
+	}
+	
+	protected void duckAudio() {
+		setLogVolume(mp1, DUCK_VOLUME);
+		setLogVolume(mp2, DUCK_VOLUME);
+	}
+	
+	protected void unDuckAudio() {
+		setLogVolume(mp1, NORMAL_VOLUME);
+		setLogVolume(mp2, NORMAL_VOLUME);
+	}
+	
 	public void tap(View view) {
 		switch(view.getId()) {
 		case R.id.button_mainmenu_singleplayer:
 			Intent i = new Intent(this, com.jpapps.sticks.SinglePlayerGameActivity.class);
-			if(mp1.isPlaying()) mp1.stop();
-			if(mp2.isPlaying()) mp2.stop();
+			stopAudio();
 			startActivity(i);
 			break;
 		case R.id.button_mainmenu_multiplayer:
@@ -101,20 +137,23 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 
 	@Override
 	public void onAudioFocusChange(int focusChange) {
-		
+		switch(focusChange) {
+		case AudioManager.AUDIOFOCUS_GAIN:
+			unDuckAudio();
+			startAudio();
+			break;
+		case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+			duckAudio();
+			break;
+		case AudioManager.AUDIOFOCUS_LOSS:
+			stopAudio();
+		}
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(mp2 != null) {
-			if(!mp1.isPlaying() && !mp2.isPlaying()) {
-				mp2.start();
-			}
-		} else {
-			mp2 = MediaPlayer.create(getApplicationContext(), R.raw.sticks_main_loop);
-			mp2.setLooping(true);
-		}
+		startAudio();
 	}
 	
 	@Override
