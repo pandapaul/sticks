@@ -22,7 +22,7 @@ public class AnimatedObject {
 		this.currentPathPosition[1] = this.pathY.getCurrent();
 	}
 	
-	public void restart() {
+	public void reset() {
 		this.framesMill.restart();
 		this.pathX.restart();
 		this.pathY.restart();

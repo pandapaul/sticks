@@ -79,7 +79,7 @@ public class NumberMill {
 			case ONCE:
 				if(currentNumberIndex < numbers.length-1)
 					currentNumberIndex++;
-				else
+				if(currentNumberIndex==numbers.length-1)
 					finished = true;
 				break;
 			default:
