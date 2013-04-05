@@ -11,12 +11,83 @@ public class SticksLogicEngine {
 		movesPerTurn = m;
 	}
 	
-	public void processTurn(int playerMoveChoice, int opponentMoveChoice) {
-		
+	public int processTurn(int playerMoveChoice, int opponentMoveChoice) {
+		int result = 0;
+		switch (playerMoveChoice) {
+		case StickFightRenderer.DEFEND_HIGH:
+			switch (opponentMoveChoice) {
+			case StickFightRenderer.DEFEND_HIGH:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.DEFEND_LOW:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_HIGH:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_LOW:
+				result = StickFightRenderer.PLAYER_DAMAGED;
+				break;
+			}
+			break;
+		case StickFightRenderer.DEFEND_LOW:
+			switch (opponentMoveChoice) {
+			case StickFightRenderer.DEFEND_HIGH:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.DEFEND_LOW:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_HIGH:
+				result = StickFightRenderer.PLAYER_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_LOW:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			}
+			break;
+		case StickFightRenderer.ATTACK_HIGH:
+			switch (opponentMoveChoice) {
+			case StickFightRenderer.DEFEND_HIGH:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.DEFEND_LOW:
+				result = StickFightRenderer.OPPONENT_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_HIGH:
+				result = StickFightRenderer.BOTH_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_LOW:
+				result = StickFightRenderer.BOTH_DAMAGED;
+				break;
+			}
+			break;
+		case StickFightRenderer.ATTACK_LOW:
+			switch (opponentMoveChoice) {
+			case StickFightRenderer.DEFEND_HIGH:
+				result = StickFightRenderer.OPPONENT_DAMAGED;
+				break;
+			case StickFightRenderer.DEFEND_LOW:
+				result = StickFightRenderer.NONE_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_HIGH:
+				result = StickFightRenderer.BOTH_DAMAGED;
+				break;
+			case StickFightRenderer.ATTACK_LOW:
+				result = StickFightRenderer.BOTH_DAMAGED;
+				break;
+			}
+			break;
+		}
+		return result;
 	}
 	
-	public void processTurn(int[] playerMoveChoice, int[] opponentMoveChoice) {
-		
+	public int[] processTurns(int[] playerMoveChoice, int[] opponentMoveChoice) {
+		int[] result = new int[playerMoveChoice.length];
+		for (int i=0; i<result.length; i++) {
+			result[i] = processTurn(playerMoveChoice[i], opponentMoveChoice[i]);
+		}
+		return result;
 	}
 	
 }

@@ -13,8 +13,6 @@ import android.view.View;
 
 public class MainMenuActivity extends Activity implements AudioManager.OnAudioFocusChangeListener {
 	
-	//Public indexes for sprite sheets
-	public final static int PLAYER_SHEET_INDEX = 0;
 	public static SpriteSheet playerSheet;
 	
 	//int[] for each sprite sheet with 3 parameters: ID, rows, & columns.

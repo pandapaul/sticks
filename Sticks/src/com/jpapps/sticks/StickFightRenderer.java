@@ -12,15 +12,23 @@ import android.view.SurfaceHolder;
 
 public class StickFightRenderer extends SurfaceRenderer {
 	
-	//Battle variables
+	//Battle state variables
+	private int battleState;
+	private int result;
+	public final static int FIGHTING = 0;
+	public final static int PLAYER_DAMAGED = 1;
+	public final static int OPPONENT_DAMAGED = 2;
+	public final static int NONE_DAMAGED = 3;
+	public final static int BOTH_DAMAGED = 4;
+	
+	//Move choice variables
 	private int playerChoice;
 	private int opponentChoice;
 	public final static int IDLE = 0;
-	//public final static int ENGAGE = 1;
-	public final static int DEFEND_HIGH = 2;
-	public final static int DEFEND_LOW = 3;
-	public final static int ATTACK_HIGH = 4;
-	public final static int ATTACK_LOW = 5;
+	public final static int DEFEND_HIGH = 1;
+	public final static int DEFEND_LOW = 2;
+	public final static int ATTACK_HIGH = 3;
+	public final static int ATTACK_LOW = 4;
 	
 	//Sprite sheets
 	private SpriteSheet playerSheet;
@@ -38,7 +46,8 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int[] pathAttackFromRight = {45,45,44,43,40};
 	public final static int[] pathDefendFromLeft = {30,30,31,33};
 	public final static int[] pathDefendFromRight = {45,45,44,42};
-	private final static double stickWidth = 0.25;
+	
+	private final static double stickWidth = 0.25; //Percent of canvas width
 	
 	private StickMan player;
 	private StickMan opponent;
@@ -59,8 +68,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 		opponent.setPathX(new NumberMill(n,NumberMill.ONCE));
 		opponent.setPathY(null);
 		
+		//Initialize states
 		playerChoice = IDLE;
 		opponentChoice = IDLE;
+		battleState = FIGHTING;
+		result = FIGHTING;
 	}
 	
 	protected Rect calculateDestinationRect(Rect r, float w, float h, int[] coords) {
@@ -167,8 +179,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 		
 	}
 	
-	protected void engage() {
+	protected void engage(int playerChoice, int opponentChoice, int result) {
 		engaging = true;
+		this.playerChoice = playerChoice;
+		this.opponentChoice = opponentChoice;
+		this.result = result;
 		player.setFramesMill(new NumberMill(framesStickRun, NumberMill.ONCE));
 		opponent.setFramesMill(new NumberMill(framesStickRun, NumberMill.ONCE));
 		player.setPathX(new NumberMill(pathRunLeftToMiddle,NumberMill.ONCE));
@@ -177,9 +192,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 		opponent.reset();
 	}
 	
-	public void setChoices(int playerChoice, int opponentChoice) {
-		this.playerChoice = playerChoice;
-		this.opponentChoice = opponentChoice;
-		engage();
+	public int getBattleState() {
+		return battleState;
+	}
+
+	public void setBattleState(int battleState) {
+		this.battleState = battleState;
 	}
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class SinglePlayerGameActivity extends Activity {
 
 	private FightSurfaceView fightSurfaceView;
-	private StickFightRenderer fightRenderer;
+	private SticksLogicEngine logicEngine;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,8 @@ public class SinglePlayerGameActivity extends Activity {
 	    getWindow().setWindowAnimations(android.R.anim.slide_in_left);
 	    setContentView(R.layout.activity_single_player_game);
 	    fightSurfaceView = (FightSurfaceView) findViewById(R.id.single_player_game_surface);
-	    fightRenderer = fightSurfaceView.getRenderer();
+	    
+	    logicEngine = new SticksLogicEngine();
         
 	    //Give the textviews the right font
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/ampersand.ttf");
@@ -53,24 +54,32 @@ public class SinglePlayerGameActivity extends Activity {
     	}
     }
     
-    public void tap(View view) {
+    public void selectMove(View view) {
+    	
+    	//Will eventually add something here that collapses or hides the buttons
+    	
+    	int opponentChoice = randOpponentSelection();
+    	int playerChoice = 0;
+    	int result = 0;
 		switch(view.getId()) {
 		case R.id.button_defendhigh:
-			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.DEFEND_HIGH, randOpponentSelection());
+			playerChoice = StickFightRenderer.DEFEND_HIGH;
 			break;
 		case R.id.button_attackhigh:
-			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.ATTACK_HIGH, randOpponentSelection());
+			playerChoice = StickFightRenderer.ATTACK_HIGH;
 			break;
 		case R.id.button_defendlow:
-			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.DEFEND_LOW, randOpponentSelection());
+			playerChoice = StickFightRenderer.DEFEND_LOW;
 			break;
 		case R.id.button_attacklow:
-			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.ATTACK_LOW, randOpponentSelection());
+			playerChoice = StickFightRenderer.ATTACK_LOW;
 			break;
 		default:
-			// What button did you push this time?
+			// Do what now?
 			break;
 		}
+		result = logicEngine.processTurn(playerChoice, opponentChoice);
+		fightSurfaceView.getRenderer().engage(playerChoice, opponentChoice, result);
 	}
 
 }
