@@ -91,7 +91,7 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 	}
 	
 	protected void startAudio() {
-		if(mp2 != null) {
+		if(mp1 != null && mp2 != null) {
 			if(!mp1.isPlaying() && !mp2.isPlaying()) {
 				mp2.start();
 			}

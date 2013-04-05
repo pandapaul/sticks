@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 	

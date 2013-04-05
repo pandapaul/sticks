@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
@@ -39,7 +38,7 @@ public class SurfaceRenderer implements Runnable {
 	 */
 	public SurfaceRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		mSurfaceHolder = surfaceHolder;
-		this.context = context;
+		this.setContext(context);
 		desiredSleepTime = time;
 		renderState = RUNNING;
 	}
@@ -132,5 +131,13 @@ public class SurfaceRenderer implements Runnable {
 
 	public void setRenderState(int renderState) {
 		this.renderState = renderState;
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
 	}
 }

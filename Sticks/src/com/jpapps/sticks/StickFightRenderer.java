@@ -2,13 +2,24 @@ package com.jpapps.sticks;
 
 import com.jpapps.pandroidGL.*;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class StickFightRenderer extends SurfaceRenderer {
 	
@@ -20,6 +31,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int OPPONENT_DAMAGED = 2;
 	public final static int NONE_DAMAGED = 3;
 	public final static int BOTH_DAMAGED = 4;
+	public final static int FINISHED = 5;
 	
 	//Move choice variables
 	private int playerChoice;
@@ -96,60 +108,91 @@ public class StickFightRenderer extends SurfaceRenderer {
 		int[] scaledPosition = {scaledX,scaledY};
 		return scaledPosition;
 	}
-	
+		
 	@Override
 	protected void update() {
-		if(player.getFramesMill().isFinished()) {
-			if(engaging) {
-				//Sticks are fully engaged. Move on to next animation.
-				engaging = false;
-				switch(playerChoice) {
-				case DEFEND_HIGH:
-					player.setFramesMill(new NumberMill(framesStickDefendHigh, NumberMill.ONCE));
-					player.setPathX(new NumberMill(pathDefendFromLeft, NumberMill.ONCE));
-					break;
-				case DEFEND_LOW:
-					player.setFramesMill(new NumberMill(framesStickDefendLow, NumberMill.ONCE));
-					player.setPathX(new NumberMill(pathDefendFromLeft, NumberMill.ONCE));
-					break;
-				case ATTACK_HIGH:
-					player.setFramesMill(new NumberMill(framesStickAttackHigh, NumberMill.ONCE));
-					player.setPathX(new NumberMill(pathAttackFromLeft, NumberMill.ONCE));
-					break;
-				case ATTACK_LOW:
-					player.setFramesMill(new NumberMill(framesStickAttackLow, NumberMill.ONCE));
-					player.setPathX(new NumberMill(pathAttackFromLeft, NumberMill.ONCE));
-					break;
-				default:
-					Log.w("Sticks","StickFightRenderer received an unknown battleAnimation state.");
-					break;
+		if(battleState == FIGHTING) {
+			if(player.getFramesMill().isFinished()) {
+				if(engaging) {
+					//Sticks are fully engaged. Move on to attack and defend animations.
+					engaging = false;
+					switch(playerChoice) {
+					case DEFEND_HIGH:
+						player.setFramesMill(new NumberMill(framesStickDefendHigh, NumberMill.ONCE));
+						player.setPathX(new NumberMill(pathDefendFromLeft, NumberMill.ONCE));
+						break;
+					case DEFEND_LOW:
+						player.setFramesMill(new NumberMill(framesStickDefendLow, NumberMill.ONCE));
+						player.setPathX(new NumberMill(pathDefendFromLeft, NumberMill.ONCE));
+						break;
+					case ATTACK_HIGH:
+						player.setFramesMill(new NumberMill(framesStickAttackHigh, NumberMill.ONCE));
+						player.setPathX(new NumberMill(pathAttackFromLeft, NumberMill.ONCE));
+						break;
+					case ATTACK_LOW:
+						player.setFramesMill(new NumberMill(framesStickAttackLow, NumberMill.ONCE));
+						player.setPathX(new NumberMill(pathAttackFromLeft, NumberMill.ONCE));
+						break;
+					default:
+						Log.w("Sticks","StickFightRenderer received an unknown battleAnimation state.");
+						break;
+					}
+					switch(opponentChoice) {
+					case DEFEND_HIGH:
+						opponent.setFramesMill(new NumberMill(framesStickDefendHigh, NumberMill.ONCE));
+						opponent.setPathX(new NumberMill(pathDefendFromRight, NumberMill.ONCE));
+						break;
+					case DEFEND_LOW:
+						opponent.setFramesMill(new NumberMill(framesStickDefendLow, NumberMill.ONCE));
+						opponent.setPathX(new NumberMill(pathDefendFromRight, NumberMill.ONCE));
+						break;
+					case ATTACK_HIGH:
+						opponent.setFramesMill(new NumberMill(framesStickAttackHigh, NumberMill.ONCE));
+						opponent.setPathX(new NumberMill(pathAttackFromRight, NumberMill.ONCE));
+						break;
+					case ATTACK_LOW:
+						opponent.setFramesMill(new NumberMill(framesStickAttackLow, NumberMill.ONCE));
+						opponent.setPathX(new NumberMill(pathAttackFromRight, NumberMill.ONCE));
+						break;
+					default:
+						Log.w("Sticks","StickFightRenderer received an unknown battleAnimation state.");
+						break;
+					}
 				}
-				switch(opponentChoice) {
-				case DEFEND_HIGH:
-					opponent.setFramesMill(new NumberMill(framesStickDefendHigh, NumberMill.ONCE));
-					opponent.setPathX(new NumberMill(pathDefendFromRight, NumberMill.ONCE));
-					break;
-				case DEFEND_LOW:
-					opponent.setFramesMill(new NumberMill(framesStickDefendLow, NumberMill.ONCE));
-					opponent.setPathX(new NumberMill(pathDefendFromRight, NumberMill.ONCE));
-					break;
-				case ATTACK_HIGH:
-					opponent.setFramesMill(new NumberMill(framesStickAttackHigh, NumberMill.ONCE));
-					opponent.setPathX(new NumberMill(pathAttackFromRight, NumberMill.ONCE));
-					break;
-				case ATTACK_LOW:
-					opponent.setFramesMill(new NumberMill(framesStickAttackLow, NumberMill.ONCE));
-					opponent.setPathX(new NumberMill(pathAttackFromRight, NumberMill.ONCE));
-					break;
-				default:
-					Log.w("Sticks","StickFightRenderer received an unknown battleAnimation state.");
-					break;
+				else {
+					//The battle state is fighting, the animations are finished, and they were doing something other than engaging.
+					battleState = result;
 				}
 			}
-			else {
-				//The player and opponent animations are finished, and they doing something other than engaging.
-				
+			//The battle state is fighting, but the animations aren't finished yet.
+		}
+		else if(battleState != FINISHED){
+			//The battle state is something other than fighting
+			switch (battleState) {
+			case PLAYER_DAMAGED:
+				player.setHealth(player.getHealth()-1);
+				battleState = FINISHED;
+				break;
+			case OPPONENT_DAMAGED:
+				opponent.setHealth(opponent.getHealth()-1);
+				battleState = FINISHED;
+				break;
+			case BOTH_DAMAGED:
+				player.setHealth(player.getHealth()-1);
+				opponent.setHealth(opponent.getHealth()-1);
+				battleState = FINISHED;
+				break;
+			case NONE_DAMAGED:
+				battleState = FINISHED;
+				break;
+			default:
+				break;
 			}
+			//Temporary thing for tracking player health until I can get the health bars worked out
+			Log.w("Sticks", "Player Health = " + player.getHealth() + " Opponent Health = " + opponent.getHealth());
+		}
+		else {
+			//The battle state is finished
 		}
 	}
 
@@ -179,10 +222,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 		
 	}
 	
-	protected void engage(int playerChoice, int opponentChoice, int result) {
+	protected synchronized void engage(int playerChoice, int opponentChoice, int result) {
 		engaging = true;
 		this.playerChoice = playerChoice;
 		this.opponentChoice = opponentChoice;
+		this.battleState = FIGHTING;
 		this.result = result;
 		player.setFramesMill(new NumberMill(framesStickRun, NumberMill.ONCE));
 		opponent.setFramesMill(new NumberMill(framesStickRun, NumberMill.ONCE));
@@ -199,4 +243,5 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public void setBattleState(int battleState) {
 		this.battleState = battleState;
 	}
+
 }
