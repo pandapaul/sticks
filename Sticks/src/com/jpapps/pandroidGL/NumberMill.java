@@ -1,4 +1,4 @@
-package com.jpapps.sticks;
+package com.jpapps.pandroidGL;
 
 public class NumberMill {
 	

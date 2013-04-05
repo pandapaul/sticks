@@ -1,15 +1,14 @@
 package com.jpapps.sticks;
 
+import com.jpapps.pandroidGL.*;
+
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 
 public class MainMenuActivity extends Activity implements AudioManager.OnAudioFocusChangeListener {
@@ -38,7 +37,7 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 			boolean complete = false;
 			
 			if(playerSheet == null)
-				playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, 4, 6);
+				playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, 6, 6);
 			
 			mp1 = MediaPlayer.create(getApplicationContext(), R.raw.sticks_main_introriff);
 			mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){

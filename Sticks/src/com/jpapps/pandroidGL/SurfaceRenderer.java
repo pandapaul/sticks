@@ -1,4 +1,4 @@
-package com.jpapps.sticks;
+package com.jpapps.pandroidGL;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

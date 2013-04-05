@@ -1,13 +1,13 @@
 package com.jpapps.sticks;
 
-public class SticksEngineCore {
+public class SticksLogicEngine {
 	
 	private int movesPerTurn;
 	
-	public SticksEngineCore() {
+	public SticksLogicEngine() {
 		movesPerTurn = 1;
 	}
-	public SticksEngineCore(int m) {
+	public SticksLogicEngine(int m) {
 		movesPerTurn = m;
 	}
 	

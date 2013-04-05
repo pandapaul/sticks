@@ -42,10 +42,14 @@ public class SinglePlayerGameActivity extends Activity {
     
     protected int randOpponentSelection() {
     	double rando = new Random().nextDouble();
-    	if(rando < 0.5 ) {
+    	if(rando < 0.25 ) {
     		return StickFightRenderer.DEFEND_HIGH;
-    	} else {
+    	} else if(rando < 0.5) {
     		return StickFightRenderer.ATTACK_HIGH;
+    	} else if(rando < 0.75) {
+    		return StickFightRenderer.DEFEND_LOW;
+    	} else {
+    		return StickFightRenderer.ATTACK_LOW;
     	}
     }
     
@@ -56,6 +60,12 @@ public class SinglePlayerGameActivity extends Activity {
 			break;
 		case R.id.button_attackhigh:
 			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.ATTACK_HIGH, randOpponentSelection());
+			break;
+		case R.id.button_defendlow:
+			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.DEFEND_LOW, randOpponentSelection());
+			break;
+		case R.id.button_attacklow:
+			fightSurfaceView.getRenderer().setChoices(StickFightRenderer.ATTACK_LOW, randOpponentSelection());
 			break;
 		default:
 			// What button did you push this time?
