@@ -31,7 +31,9 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int OPPONENT_DAMAGED = 2;
 	public final static int NONE_DAMAGED = 3;
 	public final static int BOTH_DAMAGED = 4;
-	public final static int FINISHED = 5;
+	public final static int PLAYER_PARRY = 5;
+	public final static int OPPONENT_PARRY = 6;
+	public final static int FINISHED = 7;
 	private boolean engaging = false;
 	
 	//Move choice variables
@@ -322,11 +324,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 			//The battle state is something other than fighting
 			switch (battleState) {
 			case PLAYER_DAMAGED:
-				player.setHealth(player.getHealth()-1);
+				player.setHealth(player.getHealth()-2);
 				battleState = FINISHED;
 				break;
 			case OPPONENT_DAMAGED:
-				opponent.setHealth(opponent.getHealth()-1);
+				opponent.setHealth(opponent.getHealth()-2);
 				battleState = FINISHED;
 				break;
 			case BOTH_DAMAGED:

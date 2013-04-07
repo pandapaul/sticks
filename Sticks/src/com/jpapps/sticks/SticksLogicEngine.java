@@ -1,6 +1,10 @@
 package com.jpapps.sticks;
 
+import java.util.Random;
+
 public class SticksLogicEngine {
+	
+	private static final double chanceToParry = 0.25;
 	
 	private int movesPerTurn;
 	
@@ -12,7 +16,16 @@ public class SticksLogicEngine {
 	}
 	
 	public int processTurn(int playerMoveChoice, int opponentMoveChoice) {
+		
 		int result = 0;
+		
+		boolean parry = false;
+		
+		double rando = new Random().nextDouble();
+		if(rando < chanceToParry) {
+			parry = true;
+		}
+		
 		switch (playerMoveChoice) {
 		case StickFightRenderer.DEFEND_HIGH:
 			switch (opponentMoveChoice) {
@@ -23,7 +36,10 @@ public class SticksLogicEngine {
 				result = StickFightRenderer.NONE_DAMAGED;
 				break;
 			case StickFightRenderer.ATTACK_HIGH:
-				result = StickFightRenderer.NONE_DAMAGED;
+				if(parry)
+					result = StickFightRenderer.OPPONENT_DAMAGED;
+				else
+					result = StickFightRenderer.NONE_DAMAGED;
 				break;
 			case StickFightRenderer.ATTACK_LOW:
 				result = StickFightRenderer.PLAYER_DAMAGED;
@@ -42,14 +58,20 @@ public class SticksLogicEngine {
 				result = StickFightRenderer.PLAYER_DAMAGED;
 				break;
 			case StickFightRenderer.ATTACK_LOW:
-				result = StickFightRenderer.NONE_DAMAGED;
+				if(parry)
+					result = StickFightRenderer.OPPONENT_DAMAGED;
+				else
+					result = StickFightRenderer.NONE_DAMAGED;
 				break;
 			}
 			break;
 		case StickFightRenderer.ATTACK_HIGH:
 			switch (opponentMoveChoice) {
 			case StickFightRenderer.DEFEND_HIGH:
-				result = StickFightRenderer.NONE_DAMAGED;
+				if(parry)
+					result = StickFightRenderer.PLAYER_DAMAGED;
+				else
+					result = StickFightRenderer.NONE_DAMAGED;
 				break;
 			case StickFightRenderer.DEFEND_LOW:
 				result = StickFightRenderer.OPPONENT_DAMAGED;
@@ -68,7 +90,10 @@ public class SticksLogicEngine {
 				result = StickFightRenderer.OPPONENT_DAMAGED;
 				break;
 			case StickFightRenderer.DEFEND_LOW:
-				result = StickFightRenderer.NONE_DAMAGED;
+				if(parry)
+					result = StickFightRenderer.PLAYER_DAMAGED;
+				else
+					result = StickFightRenderer.NONE_DAMAGED;
 				break;
 			case StickFightRenderer.ATTACK_HIGH:
 				result = StickFightRenderer.BOTH_DAMAGED;

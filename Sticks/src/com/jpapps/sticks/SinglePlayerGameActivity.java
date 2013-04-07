@@ -24,7 +24,7 @@ public class SinglePlayerGameActivity extends Activity {
 	    getWindow().setWindowAnimations(android.R.anim.slide_in_left);
 	    setContentView(R.layout.fight_layout);
 	    fightSurfaceView = (FightSurfaceView) findViewById(R.id.single_player_game_surface);
-	    //Pass this activity to rendering thread so that it can modify the health bars
+	    //Pass this activity to rendering thread so that it can modify extra UI components like health bars
 	    fightSurfaceView.getRenderer().setActivity(this);
 	    
 	    logicEngine = new SticksLogicEngine();
