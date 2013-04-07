@@ -32,6 +32,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int NONE_DAMAGED = 3;
 	public final static int BOTH_DAMAGED = 4;
 	public final static int FINISHED = 5;
+	private boolean engaging = false;
 	
 	//Move choice variables
 	private int playerChoice;
@@ -59,12 +60,23 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int[] pathDefendFromLeft = {30,30,31,33};
 	public final static int[] pathDefendFromRight = {45,45,44,42};
 	
+	//Drawing dimensions
 	private final static double stickWidth = 0.25; //Percent of canvas width
 	
+	//Game objects
 	private StickMan player;
 	private StickMan opponent;
 	
-	private boolean engaging = false;
+	//Health bar views
+	private View fightLayout;
+	private View playerHealthBar;
+	private View opponentHealthBar;
+	
+	//Game activity for access to UI component
+	private Activity activity;
+	
+	//Runnable for performing actions on UI thread
+	Runnable UIRunnable;
 	
 	public StickFightRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		super(surfaceHolder, context, time);
@@ -107,6 +119,146 @@ public class StickFightRenderer extends SurfaceRenderer {
 		int scaledY = (int) Math.round((float)position[1]/100.0 * canvasHeight);
 		int[] scaledPosition = {scaledX,scaledY};
 		return scaledPosition;
+	}
+	
+	public void updateHealthBars(final int playerHealth, final int opponentHealth, final Context context) {
+		
+		UIRunnable = new Runnable() {
+			@Override
+			public void run() {
+				
+				//Get access to health bars
+				
+				ImageView playerBar1 = (ImageView) activity.findViewById(R.id.ui_healthbar_left_1);
+				ImageView playerBar2 = (ImageView) activity.findViewById(R.id.ui_healthbar_left_2);
+				ImageView playerBar3 = (ImageView) activity.findViewById(R.id.ui_healthbar_left_3);
+				ImageView opponentBar1 = (ImageView) activity.findViewById(R.id.ui_healthbar_right_1);
+				ImageView opponentBar2 = (ImageView) activity.findViewById(R.id.ui_healthbar_right_2);
+				ImageView opponentBar3 = (ImageView) activity.findViewById(R.id.ui_healthbar_right_3);
+				switch (playerHealth) {
+				case 6:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar1.setVisibility(View.VISIBLE);
+					playerBar2.setVisibility(View.VISIBLE);
+					playerBar3.setVisibility(View.VISIBLE);
+					break;
+				case 5:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_half);
+					playerBar1.setVisibility(View.VISIBLE);
+					playerBar2.setVisibility(View.VISIBLE);
+					playerBar3.setVisibility(View.VISIBLE);
+					break;
+				case 4:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar1.setVisibility(View.VISIBLE);
+					playerBar2.setVisibility(View.VISIBLE);
+					playerBar3.setVisibility(View.INVISIBLE);
+					break;
+				case 3:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_half);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar1.setVisibility(View.VISIBLE);
+					playerBar2.setVisibility(View.VISIBLE);
+					playerBar3.setVisibility(View.INVISIBLE);
+					break;
+				case 2:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar1.setVisibility(View.VISIBLE);
+					playerBar2.setVisibility(View.INVISIBLE);
+					playerBar3.setVisibility(View.INVISIBLE);
+					break;
+				case 1:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_half);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar1.setVisibility(View.VISIBLE);
+					playerBar2.setVisibility(View.INVISIBLE);
+					playerBar3.setVisibility(View.INVISIBLE);
+					break;
+				default:
+					playerBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					playerBar1.setVisibility(View.INVISIBLE);
+					playerBar2.setVisibility(View.INVISIBLE);
+					playerBar3.setVisibility(View.INVISIBLE);
+					break;
+				}
+				switch (opponentHealth) {
+				case 6:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar1.setVisibility(View.VISIBLE);
+					opponentBar2.setVisibility(View.VISIBLE);
+					opponentBar3.setVisibility(View.VISIBLE);
+					break;
+				case 5:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_half);
+					opponentBar1.setVisibility(View.VISIBLE);
+					opponentBar2.setVisibility(View.VISIBLE);
+					opponentBar3.setVisibility(View.VISIBLE);
+					break;
+				case 4:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar1.setVisibility(View.VISIBLE);
+					opponentBar2.setVisibility(View.VISIBLE);
+					opponentBar3.setVisibility(View.INVISIBLE);
+					break;
+				case 3:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_half);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar1.setVisibility(View.VISIBLE);
+					opponentBar2.setVisibility(View.VISIBLE);
+					opponentBar3.setVisibility(View.INVISIBLE);
+					break;
+				case 2:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar1.setVisibility(View.VISIBLE);
+					opponentBar2.setVisibility(View.INVISIBLE);
+					opponentBar3.setVisibility(View.INVISIBLE);
+					break;
+				case 1:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_half);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar1.setVisibility(View.VISIBLE);
+					opponentBar2.setVisibility(View.INVISIBLE);
+					opponentBar3.setVisibility(View.INVISIBLE);
+					break;
+				default:
+					opponentBar1.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar2.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar3.setImageResource(R.drawable.ui_healthbar_unit);
+					opponentBar1.setVisibility(View.INVISIBLE);
+					opponentBar2.setVisibility(View.INVISIBLE);
+					opponentBar3.setVisibility(View.INVISIBLE);
+					break;
+				}
+			}
+		};
+		
+		//Run the stuff on the UI thread, becase we gotta be able to modify the views
+		//...really not a fan of this...
+		if(activity!=null)
+			activity.runOnUiThread(UIRunnable);
+		
 	}
 		
 	@Override
@@ -188,6 +340,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 			default:
 				break;
 			}
+			this.updateHealthBars(player.getHealth(), opponent.getHealth(), this.getContext());
 			//Temporary thing for tracking player health until I can get the health bars worked out
 			Log.w("Sticks", "Player Health = " + player.getHealth() + " Opponent Health = " + opponent.getHealth());
 		}
@@ -243,5 +396,9 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public void setBattleState(int battleState) {
 		this.battleState = battleState;
 	}
-
+	
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}
+	
 }

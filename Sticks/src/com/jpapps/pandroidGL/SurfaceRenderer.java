@@ -44,6 +44,17 @@ public class SurfaceRenderer implements Runnable {
 	}
 	
 	/**
+	 * Converts density-independent pixels to regular old pixels. Useful for determining appropriate sizes of things to be drawn.
+	 * @param dp density-independent pixels
+	 * @return pixels as a rounted int
+	 */
+	protected int dpToPx(int dp)
+	{
+	    float density = this.getContext().getResources().getDisplayMetrics().density;
+	    return Math.round((float)dp * density);
+	}
+	
+	/**
 	 * Should be overridden to perform all drawing.
 	 * @param canvas is where all drawing will be done.
 	 */
