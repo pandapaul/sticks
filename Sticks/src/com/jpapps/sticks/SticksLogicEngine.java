@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class SticksLogicEngine {
 	
-	private static final double chanceToParry = 0.25;
+	private static final double chanceToParry = 0.5;
 	
 	private int movesPerTurn;
 	
@@ -27,82 +27,93 @@ public class SticksLogicEngine {
 		}
 		
 		switch (playerMoveChoice) {
-		case StickFightRenderer.DEFEND_HIGH:
-			switch (opponentMoveChoice) {
+		
 			case StickFightRenderer.DEFEND_HIGH:
-				result = StickFightRenderer.NONE_DAMAGED;
+				switch (opponentMoveChoice) {
+					case StickFightRenderer.DEFEND_HIGH:
+						result = StickFightRenderer.NONE_DAMAGED;
+						break;
+					case StickFightRenderer.DEFEND_LOW:
+						result = StickFightRenderer.NONE_DAMAGED;
+						break;
+					case StickFightRenderer.ATTACK_HIGH:
+						if(parry) {
+							result = StickFightRenderer.PLAYER_PARRY;
+						}
+						else {
+							result = StickFightRenderer.NONE_DAMAGED;
+						}
+						break;
+					case StickFightRenderer.ATTACK_LOW:
+						result = StickFightRenderer.PLAYER_DAMAGED;
+						break;
+				}
 				break;
+				
 			case StickFightRenderer.DEFEND_LOW:
-				result = StickFightRenderer.NONE_DAMAGED;
+				switch (opponentMoveChoice) {
+					case StickFightRenderer.DEFEND_HIGH:
+						result = StickFightRenderer.NONE_DAMAGED;
+						break;
+					case StickFightRenderer.DEFEND_LOW:
+						result = StickFightRenderer.NONE_DAMAGED;
+						break;
+					case StickFightRenderer.ATTACK_HIGH:
+						result = StickFightRenderer.PLAYER_DAMAGED;
+						break;
+					case StickFightRenderer.ATTACK_LOW:
+						if(parry) {
+							result = StickFightRenderer.PLAYER_PARRY;
+						}
+						else {
+							result = StickFightRenderer.NONE_DAMAGED;
+						}
+						break;
+				}
 				break;
+				
 			case StickFightRenderer.ATTACK_HIGH:
-				if(parry)
-					result = StickFightRenderer.PLAYER_PARRY;
-				else
-					result = StickFightRenderer.NONE_DAMAGED;
+				switch (opponentMoveChoice) {
+					case StickFightRenderer.DEFEND_HIGH:
+						if(parry) {
+							result = StickFightRenderer.OPPONENT_PARRY;
+						}
+						else {
+							result = StickFightRenderer.NONE_DAMAGED;
+						}
+						break;
+					case StickFightRenderer.DEFEND_LOW:
+						result = StickFightRenderer.OPPONENT_DAMAGED;
+						break;
+					case StickFightRenderer.ATTACK_HIGH:
+						result = StickFightRenderer.BOTH_DAMAGED;
+						break;
+					case StickFightRenderer.ATTACK_LOW:
+						result = StickFightRenderer.BOTH_DAMAGED;
+						break;
+					}
 				break;
 			case StickFightRenderer.ATTACK_LOW:
-				result = StickFightRenderer.PLAYER_DAMAGED;
+				switch (opponentMoveChoice) {
+					case StickFightRenderer.DEFEND_HIGH:
+						result = StickFightRenderer.OPPONENT_DAMAGED;
+						break;
+					case StickFightRenderer.DEFEND_LOW:
+						if(parry) {
+							result = StickFightRenderer.OPPONENT_PARRY;
+						}
+						else {
+							result = StickFightRenderer.NONE_DAMAGED;
+						}
+						break;
+					case StickFightRenderer.ATTACK_HIGH:
+						result = StickFightRenderer.BOTH_DAMAGED;
+						break;
+					case StickFightRenderer.ATTACK_LOW:
+						result = StickFightRenderer.BOTH_DAMAGED;
+						break;
+				}
 				break;
-			}
-			break;
-		case StickFightRenderer.DEFEND_LOW:
-			switch (opponentMoveChoice) {
-			case StickFightRenderer.DEFEND_HIGH:
-				result = StickFightRenderer.NONE_DAMAGED;
-				break;
-			case StickFightRenderer.DEFEND_LOW:
-				result = StickFightRenderer.NONE_DAMAGED;
-				break;
-			case StickFightRenderer.ATTACK_HIGH:
-				result = StickFightRenderer.PLAYER_DAMAGED;
-				break;
-			case StickFightRenderer.ATTACK_LOW:
-				if(parry)
-					result = StickFightRenderer.PLAYER_PARRY;
-				else
-					result = StickFightRenderer.NONE_DAMAGED;
-				break;
-			}
-			break;
-		case StickFightRenderer.ATTACK_HIGH:
-			switch (opponentMoveChoice) {
-			case StickFightRenderer.DEFEND_HIGH:
-				if(parry)
-					result = StickFightRenderer.OPPONENT_PARRY;
-				else
-					result = StickFightRenderer.NONE_DAMAGED;
-				break;
-			case StickFightRenderer.DEFEND_LOW:
-				result = StickFightRenderer.OPPONENT_DAMAGED;
-				break;
-			case StickFightRenderer.ATTACK_HIGH:
-				result = StickFightRenderer.BOTH_DAMAGED;
-				break;
-			case StickFightRenderer.ATTACK_LOW:
-				result = StickFightRenderer.BOTH_DAMAGED;
-				break;
-			}
-			break;
-		case StickFightRenderer.ATTACK_LOW:
-			switch (opponentMoveChoice) {
-			case StickFightRenderer.DEFEND_HIGH:
-				result = StickFightRenderer.OPPONENT_DAMAGED;
-				break;
-			case StickFightRenderer.DEFEND_LOW:
-				if(parry)
-					result = StickFightRenderer.OPPONENT_PARRY;
-				else
-					result = StickFightRenderer.NONE_DAMAGED;
-				break;
-			case StickFightRenderer.ATTACK_HIGH:
-				result = StickFightRenderer.BOTH_DAMAGED;
-				break;
-			case StickFightRenderer.ATTACK_LOW:
-				result = StickFightRenderer.BOTH_DAMAGED;
-				break;
-			}
-			break;
 		}
 		return result;
 	}
