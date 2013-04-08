@@ -13,7 +13,14 @@ import android.view.View;
 
 public class MainMenuActivity extends Activity implements AudioManager.OnAudioFocusChangeListener {
 	
+	//Sprite sheets
 	public static SpriteSheet playerSheet;
+	public static SpriteSheet bloodSheet;
+	//Sprite sheet dimensions
+	private static final int playerSheetRows = 6;
+	private static final int playerSheetCols = 6;
+	private static final int bloodSheetRows = 1;
+	private static final int bloodSheetCols = 5;
 	
 	//int[] for each sprite sheet with 3 parameters: ID, rows, & columns.
 	//private final static int[] playerSheetParams = {R.drawable.spritesheet_stick,2,6};
@@ -35,7 +42,9 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 			boolean complete = false;
 			
 			if(playerSheet == null)
-				playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, 6, 6);
+				playerSheet = new SpriteSheet(res, R.drawable.spritesheet_stick, playerSheetRows, playerSheetCols);
+			if(bloodSheet == null)
+				bloodSheet = new SpriteSheet(res, R.drawable.spritesheet_blood, bloodSheetRows, bloodSheetCols);
 			
 			mp1 = MediaPlayer.create(getApplicationContext(), R.raw.sticks_main_introriff);
 			mp1.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){

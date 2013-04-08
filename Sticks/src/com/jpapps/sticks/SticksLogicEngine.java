@@ -37,7 +37,7 @@ public class SticksLogicEngine {
 				break;
 			case StickFightRenderer.ATTACK_HIGH:
 				if(parry)
-					result = StickFightRenderer.OPPONENT_DAMAGED;
+					result = StickFightRenderer.PLAYER_PARRY;
 				else
 					result = StickFightRenderer.NONE_DAMAGED;
 				break;
@@ -59,7 +59,7 @@ public class SticksLogicEngine {
 				break;
 			case StickFightRenderer.ATTACK_LOW:
 				if(parry)
-					result = StickFightRenderer.OPPONENT_DAMAGED;
+					result = StickFightRenderer.PLAYER_PARRY;
 				else
 					result = StickFightRenderer.NONE_DAMAGED;
 				break;
@@ -69,7 +69,7 @@ public class SticksLogicEngine {
 			switch (opponentMoveChoice) {
 			case StickFightRenderer.DEFEND_HIGH:
 				if(parry)
-					result = StickFightRenderer.PLAYER_DAMAGED;
+					result = StickFightRenderer.OPPONENT_PARRY;
 				else
 					result = StickFightRenderer.NONE_DAMAGED;
 				break;
@@ -91,7 +91,7 @@ public class SticksLogicEngine {
 				break;
 			case StickFightRenderer.DEFEND_LOW:
 				if(parry)
-					result = StickFightRenderer.PLAYER_DAMAGED;
+					result = StickFightRenderer.OPPONENT_PARRY;
 				else
 					result = StickFightRenderer.NONE_DAMAGED;
 				break;

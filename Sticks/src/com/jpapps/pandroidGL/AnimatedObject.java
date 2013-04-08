@@ -1,31 +1,41 @@
 package com.jpapps.pandroidGL;
 
+import android.util.Log;
+
 public class AnimatedObject {
 	private NumberMill framesMill;
 	private NumberMill pathX;
 	private NumberMill pathY;
-	private int currentFrame;
-	private int[] currentPathPosition;
-	private static int[] defaultPath = {0};
-	private static NumberMill noPath = new NumberMill(defaultPath,NumberMill.ONCE);
-	
-	public AnimatedObject(NumberMill framesMill) {
-		this(framesMill, noPath, noPath);
+	private int width;
+	private int height;
+	private int x;
+	private int y;
+	private int initX;
+	private int initY;
+		
+	public AnimatedObject(NumberMill framesMill, int width, int height) {
+		this(framesMill, width, height, 0,0);
 	}
 	
-	public AnimatedObject(NumberMill framesMill, NumberMill pathX, NumberMill pathY) {
+	public AnimatedObject(NumberMill framesMill, int width, int height, int x, int y) {
+		this(framesMill, width, height, x, y, null, null);
+	}
+	
+	public AnimatedObject(NumberMill framesMill, int width, int height, int x, int y, NumberMill pathX, NumberMill pathY) {
 		this.setFramesMill(framesMill);
 		this.setPath(pathX, pathY);
-		this.currentFrame = framesMill.getCurrent();
-		this.currentPathPosition = new int[2];
-		this.currentPathPosition[0] = this.pathX.getCurrent();
-		this.currentPathPosition[1] = this.pathY.getCurrent();
+		this.setWidth(width);
+		this.setHeight(height);
+		this.setPosition(x,y);
+		this.initX = x;
+		this.initY = y;
 	}
 	
 	public void reset() {
 		this.framesMill.restart();
 		this.pathX.restart();
 		this.pathY.restart();
+		this.setPosition(initX, initY);
 	}
 
 	public NumberMill getFramesMill() {
@@ -51,7 +61,7 @@ public class AnimatedObject {
 	
 	public void setPathX(NumberMill pathX) {
 		if(pathX==null) {
-			int[] n = {currentPathPosition[0]};
+			int[] n = {0};
 			pathX = new NumberMill(n,NumberMill.ONCE);
 		}
 		this.pathX = pathX;
@@ -59,24 +69,27 @@ public class AnimatedObject {
 	
 	public void setPathY(NumberMill pathY) {
 		if(pathY==null) {
-			int[] n = {currentPathPosition[0]};
+			int[] n = {0};
 			pathY = new NumberMill(n,NumberMill.ONCE);
 		}
 		this.pathY = pathY;
 	}
 	
 	public void advance() {
-		currentFrame = framesMill.advance();
-		currentPathPosition[0] = pathX.advance();
-		currentPathPosition[1] = pathY.advance();
+		framesMill.advance();
+		pathX.advance();
+		pathY.advance();
+		this.x += pathX.getCurrent();
+		this.y += pathY.getCurrent();
 	}
 	
 	public int getCurrentFrame() {
-		return currentFrame;
+		return framesMill.getCurrent();
 	}
 	
-	public int[] getCurrentPathPosition() {
-		return currentPathPosition;
+	public int[] getCurrentPath() {
+		int[] path = {pathX.getCurrent(), pathY.getCurrent()}; 
+		return path;
 	}
 	
 	public void noPath() {
@@ -84,4 +97,32 @@ public class AnimatedObject {
 		this.setPathY(null);
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getX() {
+		return this.x;
+	}
+	
+	public int getY() {
+		return this.y;
+	}
+
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }
