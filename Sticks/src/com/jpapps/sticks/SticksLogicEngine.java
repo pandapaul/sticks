@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class SticksLogicEngine {
 	
-	private static final double chanceToParry = 0.5;
+	private static final double chanceToParry = 0.2;
 	
 	private int movesPerTurn;
 	
