@@ -26,19 +26,24 @@ public class AnimatedObject {
 		this.setWidth(width);
 		this.setHeight(height);
 		this.setPosition(x,y);
-		//this.init = new AnimatedObject(framesMill, width, height, x, y, pathX, pathY);
+		this.init = new AnimatedObject(this);
+	}
+	
+	public AnimatedObject(AnimatedObject ao) {
+		this.setFramesMill(ao.getFramesMill());
+		this.setPath(ao.getPathX(),ao.getPathY());
+		this.setWidth(ao.getWidth());
+		this.setHeight(ao.getHeight());
+		this.setPosition(ao.getX(),ao.getY());
 	}
 	
 	public void reset() {
-		/*
 		this.setFramesMill(init.getFramesMill());
 		this.setHeight(init.getHeight());
 		this.setWidth(init.getWidth());
 		this.setPathX(init.getPathX());
 		this.setPathY(init.getPathY());
 		this.setPosition(init.getX(),init.getY());
-		*/
-		
 	}
 
 	public NumberMill getFramesMill() {
