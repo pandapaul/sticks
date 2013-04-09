@@ -10,8 +10,7 @@ public class AnimatedObject {
 	private int height;
 	private int x;
 	private int y;
-	private int initX;
-	private int initY;
+	private AnimatedObject init;
 		
 	public AnimatedObject(NumberMill framesMill, int width, int height) {
 		this(framesMill, width, height, 0,0);
@@ -27,15 +26,19 @@ public class AnimatedObject {
 		this.setWidth(width);
 		this.setHeight(height);
 		this.setPosition(x,y);
-		this.initX = x;
-		this.initY = y;
+		//this.init = new AnimatedObject(framesMill, width, height, x, y, pathX, pathY);
 	}
 	
 	public void reset() {
-		this.framesMill.restart();
-		this.pathX.restart();
-		this.pathY.restart();
-		this.setPosition(initX, initY);
+		/*
+		this.setFramesMill(init.getFramesMill());
+		this.setHeight(init.getHeight());
+		this.setWidth(init.getWidth());
+		this.setPathX(init.getPathX());
+		this.setPathY(init.getPathY());
+		this.setPosition(init.getX(),init.getY());
+		*/
+		
 	}
 
 	public NumberMill getFramesMill() {

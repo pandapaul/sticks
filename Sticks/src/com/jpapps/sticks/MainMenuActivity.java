@@ -19,8 +19,8 @@ public class MainMenuActivity extends Activity implements AudioManager.OnAudioFo
 	//Sprite sheet dimensions
 	private static final int playerSheetRows = 6;
 	private static final int playerSheetCols = 6;
-	private static final int bloodSheetRows = 1;
-	private static final int bloodSheetCols = 5;
+	private static final int bloodSheetRows = 2;
+	private static final int bloodSheetCols = 6;
 	
 	//int[] for each sprite sheet with 3 parameters: ID, rows, & columns.
 	//private final static int[] playerSheetParams = {R.drawable.spritesheet_stick,2,6};

@@ -18,6 +18,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 	//Battle state variables
 	private int battleState;
 	private int result;
+	public final static int WAITING = -1;
 	public final static int FIGHTING = 0;
 	public final static int PLAYER_DAMAGED = 1;
 	public final static int OPPONENT_DAMAGED = 2;
@@ -26,6 +27,9 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int PLAYER_PARRY = 5;
 	public final static int OPPONENT_PARRY = 6;
 	public final static int ATTACK_FINISHED = 7;
+	public final static int VICTORY = 8;
+	public final static int TIE = 9;
+	public final static int DEFEAT = 10;
 	private boolean engaging = false;
 	
 	//Move choice variables
@@ -48,7 +52,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int[] framesStickAttackHigh = {18,19,20,21,22};
 	public final static int[] framesStickDefendLow = {23,24,25,26,27};
 	public final static int[] framesStickAttackLow = {28,29,30,31,32};
-	public final static int[] framesBlood = {1,2,3,4,5};
+	public final static int[] framesBlood = {1,2,3,4,5,6,7,8};
 	
 	//Sprite animation paths as changes in position (in % of canvas)
 	public final static int[] pathRunLeftToMiddle = {0,0,2,2,4,4,4,6,4,4};
@@ -57,12 +61,13 @@ public class StickFightRenderer extends SurfaceRenderer {
 	public final static int[] pathAttackFromRight = {0,-1,-1,-2,-6};
 	public final static int[] pathDefendFromLeft = {0,1,2,4};
 	public final static int[] pathDefendFromRight = {0,-1,-2,-4};
+	public final static int[] pathBloodFall = {0,0,0,-3,-5,-5,-10,0,0};
 	
 	//Drawing dimensions (in % of canvas)
 	private final static int stickWidth = 25;
 	private final static int stickHeight = 80;
 	private final static int bloodWidth = 12;
-	private final static int bloodHeight = 50;
+	private final static int bloodHeight = 30;
 	
 	/*
 	//Coords for points of impact in relation to stick man
@@ -111,13 +116,13 @@ public class StickFightRenderer extends SurfaceRenderer {
 		player = new StickMan(new NumberMill(framesStickIdle, NumberMill.CYCLE), stickWidth, stickHeight, 0,0);
 		opponent = new StickMan(new NumberMill(framesStickIdle, NumberMill.CYCLE), stickWidth, stickHeight, 75,0);
 		
-		playerBlood = new AnimatedObject(new NumberMill(framesBlood, NumberMill.ONCE_PERSIST), bloodWidth, bloodHeight, 0,0);
-		opponentBlood = new AnimatedObject(new NumberMill(framesBlood, NumberMill.ONCE_PERSIST), bloodWidth, bloodHeight, 75,0);
+		playerBlood = new AnimatedObject(new NumberMill(framesBlood, NumberMill.ONCE), bloodWidth, bloodHeight, 0,0, null, new NumberMill(pathBloodFall, NumberMill.ONCE_PERSIST));
+		opponentBlood = new AnimatedObject(new NumberMill(framesBlood, NumberMill.ONCE), bloodWidth, bloodHeight, 75,0, null, new NumberMill(pathBloodFall, NumberMill.ONCE_PERSIST));
 		
 		//Initialize states
 		playerChoice = IDLE;
 		opponentChoice = IDLE;
-		battleState = FIGHTING;
+		battleState = WAITING;
 		result = FIGHTING;
 	}
 	
@@ -339,13 +344,11 @@ public class StickFightRenderer extends SurfaceRenderer {
 			}
 			//The battle state is fighting, but the animations aren't finished yet.
 		}
-		else if(battleState != ATTACK_FINISHED){
-			//The battle state is something other than fighting
-			
+		else if(battleState != ATTACK_FINISHED){			
 			//Reset the blood animations
 			playerBlood.setFramesMill(new NumberMill(framesBlood, NumberMill.ONCE_PERSIST));
 			opponentBlood.setFramesMill(new NumberMill(framesBlood, NumberMill.ONCE_PERSIST));
-			
+			//Damage and bleed whomever got hit
 			switch (battleState) {
 			case PLAYER_DAMAGED:
 				player.setHealth(player.getHealth()-2);
@@ -388,8 +391,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 			}
 			this.updateHealthBars(player.getHealth(), opponent.getHealth(), this.getContext());
 		}
-		else {
-			//The battle state is ATTACK_FINISHED
+		else if(battleState == ATTACK_FINISHED) {
 			if(player.getHealth() <= 0) {
 				if(opponent.getHealth() <= 0)
 					this.tie();
@@ -398,6 +400,15 @@ public class StickFightRenderer extends SurfaceRenderer {
 			}
 			else if(opponent.getHealth() <= 0)
 				this.victory();
+			else if(playerBlood.getFramesMill().isFinished() && opponentBlood.getFramesMill().isFinished()) {
+				//Until there's an animation or something for resuming idle position, just wait a sec
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+			}
 		}
 	}
 
@@ -445,15 +456,18 @@ public class StickFightRenderer extends SurfaceRenderer {
 	
 	protected void defeat() {
 		player.setWidth(0);
+		this.battleState = DEFEAT;
 	}
 	
 	protected void tie() {
 		player.setWidth(0);
 		opponent.setWidth(0);
+		this.battleState = TIE;
 	}
 
 	protected void victory() {
 		opponent.setWidth(0);
+		this.battleState = VICTORY;
 	}
 	
 	protected void engage(int playerChoice, int opponentChoice, int result) {

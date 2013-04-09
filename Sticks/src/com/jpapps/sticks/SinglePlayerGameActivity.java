@@ -65,29 +65,34 @@ public class SinglePlayerGameActivity extends Activity {
     	
     	//Will eventually add something here that collapses or hides the buttons
     	
-    	int opponentChoice = randOpponentSelection();
-    	int playerChoice = 0;
-    	int result = 0;
-		switch(view.getId()) {
-		case R.id.button_defendhigh:
-			playerChoice = StickFightRenderer.DEFEND_HIGH;
-			break;
-		case R.id.button_attackhigh:
-			playerChoice = StickFightRenderer.ATTACK_HIGH;
-			break;
-		case R.id.button_defendlow:
-			playerChoice = StickFightRenderer.DEFEND_LOW;
-			break;
-		case R.id.button_attacklow:
-			playerChoice = StickFightRenderer.ATTACK_LOW;
-			break;
-		default:
-			// Do what now?
-			break;
-		}
-		result = logicEngine.processTurn(playerChoice, opponentChoice);
-		//Toast.makeText(this, "Player Chose: " + playerChoice + "\nOpponent Chose: " + opponentChoice + "\nResult is " + result, Toast.LENGTH_LONG).show();
-		fightSurfaceView.getRenderer().engage(playerChoice, opponentChoice, result);
+    	StickFightRenderer fightRenderer = fightSurfaceView.getRenderer();
+    	
+    	if(fightRenderer.getBattleState() == StickFightRenderer.WAITING || fightRenderer.getBattleState() == StickFightRenderer.ATTACK_FINISHED) {
+	    	int opponentChoice = randOpponentSelection();
+	    	int playerChoice = 0;
+	    	int result = 0;
+			switch(view.getId()) {
+			case R.id.button_defendhigh:
+				playerChoice = StickFightRenderer.DEFEND_HIGH;
+				break;
+			case R.id.button_attackhigh:
+				playerChoice = StickFightRenderer.ATTACK_HIGH;
+				break;
+			case R.id.button_defendlow:
+				playerChoice = StickFightRenderer.DEFEND_LOW;
+				break;
+			case R.id.button_attacklow:
+				playerChoice = StickFightRenderer.ATTACK_LOW;
+				break;
+			default:
+				// Do what now?
+				break;
+			}
+			result = logicEngine.processTurn(playerChoice, opponentChoice);
+			//Toast.makeText(this, "Player Chose: " + playerChoice + "\nOpponent Chose: " + opponentChoice + "\nResult is " + result, Toast.LENGTH_LONG).show();
+			fightRenderer.engage(playerChoice, opponentChoice, result);
+    	}
+    	
 	}
 
 }
