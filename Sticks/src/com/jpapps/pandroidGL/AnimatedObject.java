@@ -29,7 +29,7 @@ public class AnimatedObject {
 		this.init = new AnimatedObject(this);
 	}
 	
-	public AnimatedObject(AnimatedObject ao) {
+	private AnimatedObject(AnimatedObject ao) {
 		this.setFramesMill(ao.getFramesMill());
 		this.setPath(ao.getPathX(),ao.getPathY());
 		this.setWidth(ao.getWidth());
@@ -41,9 +41,13 @@ public class AnimatedObject {
 		this.setFramesMill(init.getFramesMill());
 		this.setHeight(init.getHeight());
 		this.setWidth(init.getWidth());
-		this.setPathX(init.getPathX());
-		this.setPathY(init.getPathY());
+		this.setPath(init.getPathX(), init.getPathY());
 		this.setPosition(init.getX(),init.getY());
+		
+		this.getFramesMill().restart();
+		this.getPathX().restart();
+		this.getPathY().restart();
+		
 	}
 
 	public NumberMill getFramesMill() {
