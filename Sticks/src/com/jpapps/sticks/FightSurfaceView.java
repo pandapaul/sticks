@@ -1,6 +1,7 @@
 package com.jpapps.sticks;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,6 +20,7 @@ class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 		// register our interest in hearing about changes to our surface
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
+        holder.setKeepScreenOn(true);
         
         fightRenderer = new StickFightRenderer(holder, mContext, 70);
 	}

@@ -5,6 +5,7 @@ import com.jpapps.pandroidGL.*;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -105,8 +106,14 @@ public class StickFightRenderer extends SurfaceRenderer {
 	//Runnable for performing actions on UI thread
 	Runnable UIRunnable;
 	
+	//Single background (scene) option for now
+	Bitmap background;
+	
 	public StickFightRenderer(SurfaceHolder surfaceHolder, Context context, int time) {
 		super(surfaceHolder, context, time);
+		
+		//Set background
+		background = BitmapFactory.decodeResource(context.getResources(), R.drawable.scene_fallforestclearing);
 		
 		//Get sprite sheets ready
 		playerSheet = MainMenuActivity.playerSheet;
@@ -417,8 +424,8 @@ public class StickFightRenderer extends SurfaceRenderer {
 
 	@Override
 	protected void doDraw(Canvas canvas) {
-		//Wipe the canvas to white
-		canvas.drawColor(Color.WHITE);
+		//Draw the background
+		canvas.drawBitmap(background,0,0,null);
 		
 		Rect src;
 		Rect dst;
