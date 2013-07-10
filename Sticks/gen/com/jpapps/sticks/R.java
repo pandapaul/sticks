@@ -30,15 +30,19 @@ public final class R {
         public static final int button_mainmenu_singleplayer=0x7f020006;
         public static final int ic_launcher=0x7f020007;
         public static final int poop=0x7f020008;
-        public static final int spritesheet_blood=0x7f020009;
-        public static final int spritesheet_stick=0x7f02000a;
-        public static final int ui_healthbar_background=0x7f02000b;
-        public static final int ui_healthbar_background_right=0x7f02000c;
-        public static final int ui_healthbar_half=0x7f02000d;
-        public static final int ui_healthbar_unit=0x7f02000e;
-        public static final int ui_loading=0x7f02000f;
-        public static final int ui_simple_title=0x7f020010;
-        public static final int ui_title=0x7f020011;
+        public static final int scene_fallforestclearing=0x7f020009;
+        public static final int scene_fallforestclearing_bottom=0x7f02000a;
+        public static final int scene_fallforestclearing_middle=0x7f02000b;
+        public static final int scene_fallforestclearing_top=0x7f02000c;
+        public static final int spritesheet_blood=0x7f02000d;
+        public static final int spritesheet_stick=0x7f02000e;
+        public static final int ui_healthbar_background=0x7f02000f;
+        public static final int ui_healthbar_background_right=0x7f020010;
+        public static final int ui_healthbar_half=0x7f020011;
+        public static final int ui_healthbar_unit=0x7f020012;
+        public static final int ui_loading=0x7f020013;
+        public static final int ui_simple_title=0x7f020014;
+        public static final int ui_title=0x7f020015;
     }
     public static final class id {
         public static final int action_settings=0x7f090016;

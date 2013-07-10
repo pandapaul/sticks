@@ -113,7 +113,7 @@ public class StickFightRenderer extends SurfaceRenderer {
 		super(surfaceHolder, context, time);
 		
 		//Set background
-		background = BitmapFactory.decodeResource(context.getResources(), R.drawable.scene_fallforestclearing);
+		background = BitmapFactory.decodeResource(context.getResources(), R.drawable.scene_fallforestclearing_middle);
 		
 		//Get sprite sheets ready
 		playerSheet = MainMenuActivity.playerSheet;
