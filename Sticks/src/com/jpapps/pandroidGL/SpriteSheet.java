@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.util.Log;
 
 /**
  * Class for establishing the various properties of a sprite sheet and performing operations on it.

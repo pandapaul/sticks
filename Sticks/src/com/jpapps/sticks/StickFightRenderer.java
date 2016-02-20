@@ -1,18 +1,20 @@
 package com.jpapps.sticks;
 
-import com.jpapps.pandroidGL.*;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.jpapps.pandroidGL.AnimatedObject;
+import com.jpapps.pandroidGL.NumberMill;
+import com.jpapps.pandroidGL.SpriteSheet;
+import com.jpapps.pandroidGL.SurfaceRenderer;
 
 public class StickFightRenderer extends SurfaceRenderer {
 	

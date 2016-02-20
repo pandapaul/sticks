@@ -1,11 +1,9 @@
 package com.jpapps.sticks;
 
 import android.content.Context;
-import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 class FightSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 	

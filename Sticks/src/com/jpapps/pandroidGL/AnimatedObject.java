@@ -1,6 +1,5 @@
 package com.jpapps.pandroidGL;
 
-import android.util.Log;
 
 public class AnimatedObject {
 	private NumberMill framesMill;

@@ -6,6 +6,7 @@ public class SticksLogicEngine {
 	
 	private static final double chanceToParry = 0.2;
 	
+	@SuppressWarnings("unused")
 	private int movesPerTurn;
 	
 	public SticksLogicEngine() {
